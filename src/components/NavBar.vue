@@ -11,14 +11,12 @@
            <li>
             <router-link to="/">Home</router-link>
            </li>
-           <li>
-            <router-link to="/explore">Explore</router-link>
-           </li>
+          
               <li>
             <router-link to="/profile">Profile</router-link>
               </li>
               <li>
-                <router-link to="/logout">Logout</router-link>
+                <button @click="logout">Logout</button>
               </li>
         </ul>
       </div>
@@ -46,6 +44,16 @@ export default {
             search: ''
         }
     },
+    methods: {
+        logout() {
+          localStorage.removeItem('tocken')
+          localStorage.removeItem('user')
+          localStorage.removeItem('email')
+          this.$store.dispatch('user', null)
+          this.$router.push('/login')
+           
+        }
+    }
 }
 </script>
  <style scoped>

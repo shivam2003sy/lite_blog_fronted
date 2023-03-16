@@ -77,7 +77,8 @@ export default {
         })
         console.log(response)
         localStorage.setItem('tocken' , response.data.data.id)
-        this.$store.dispatch('getUser' , response.data.data.user)
+        localStorage.setItem('user' , response.data.data.user)
+        localStorage.setItem('email' , response.data.data.email)
         if(response.status === 200){
             this.$router.push('/')
         }

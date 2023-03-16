@@ -25,10 +25,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "register" */ '../views/RegisterView.vue')
   },
   {
-    path: '/logout',
-    name: 'logout',
-    component: () => import(/* webpackChunkName: "logout" */ '../views/LogoutView.vue')
+    path: '/profile',
+    name: 'profile',
+    component: () => import(/* webpackChunkName: "profile" */ '../views/ProfileView.vue')
   },
+  
 ]
 
 const router = createRouter({

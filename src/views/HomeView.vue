@@ -1,12 +1,17 @@
 <template>
   <NavBar />
-  {{ user }}
-  {{ email }}
-  {{ no_of_followers }}
-  {{ no_of_following }}
-  {{ no_of_posts }}
+  <div>
+    <h1>Home View</h1>
+    <div v-if="user">
+      <h2>{{ user.user}}</h2>
+      <p>{{ user.email }}</p>
+      <p>{{ user.id }}</p>
+    </div>
+    <div v-else>
+      <p>Loading user data...</p>
+    </div>
+  </div>
 </template>
-
 <script>
 import NavBar from '@/components/NavBar.vue';
 import axios from 'axios';
@@ -14,33 +19,24 @@ export default {
   name: 'HomeView',
   components: {
     NavBar
-
   },
   data() {
     return {
-      user : null,
-      email : '',
-      no_of_followers : '',
-      no_of_following : '',
-      no_of_posts : '',
     }
   },
-  async created(){
-    const response = await axios.get('api/user')
-    console.log(response) 
-    if (response.status == 401) {
+  created(){
+    if (!localStorage.getItem('tocken'))  {
+      console.log(this.$store.state.user)
       this.$router.push('/login')
     }
-    console.log(response.data.data.user.user)
-    this.user = response.data.data.user.user
-    this.email = response.data.data.user.email
-    this.no_of_followers = response.data.data.userprofile.no_of_followers
-    this.no_of_following = response.data.data.userprofile.no_of_following
-    this.no_of_posts = response.data.data.userprofile.no_of_posts
+
   },
-  computed: {
-  
-  }
-  ,
+  async mounted(){
+    let response  =  await axios.get('/api/user')
+    let user  =  response.data.data
+    console.log(user)
+    this.$store.dispatch('user' , user)
+  },
+ 
 }
 </script>

@@ -4,21 +4,6 @@
 <script>
 export default {
   name: 'App',
-  data() {
-    return {
-      user: null,
-    };
-
-  },
-  created(){
-    this.user = localStorage.getItem('tocken')
-    if (this.user == null) {
-      this.$router.push('/login')
-    }
-    else{
-      this.$router.push('/')
-    }
-  },
   }
 </script>
 <style>
