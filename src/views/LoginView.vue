@@ -76,10 +76,11 @@ export default {
             password: this.password
         })
         console.log(response)
-        localStorage.setItem('tocken' , response.data.data.id)
-        localStorage.setItem('user' , response.data.data.user)
-        localStorage.setItem('email' , response.data.data.email)
         if(response.status === 200){
+            localStorage.setItem('tocken' , response.data.data.id)
+            localStorage.setItem('user' , response.data.data.user)
+            localStorage.setItem('email' , response.data.data.email)
+            //  set user in store
             this.$router.push('/')
         }
     }catch(error){

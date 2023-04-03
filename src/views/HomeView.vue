@@ -1,5 +1,6 @@
 <template>
   <NavBar />
+  {{user }}
   <CreateBlogForm v-if="modal"/>
 </template>
 <script>
@@ -16,6 +17,9 @@ export default {
     modal() {
       return this.$store.state.modal
     },
+    user() {
+      return this.$store.state.user
+    }
   },
   data() {
     return {
@@ -26,13 +30,12 @@ export default {
       console.log(this.$store.state.user)
       this.$router.push('/login')
     }
-
   },
   async mounted() {
     let response = await axios.get('/api/user')
     let user = response.data.data
     console.log(user)
-    this.$store.dispatch('user', user)
+    this.$store.dispatch('setUser', user)
   },
   methods: {
     close() {

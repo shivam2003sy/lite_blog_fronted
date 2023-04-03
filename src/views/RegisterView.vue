@@ -12,7 +12,7 @@
             <div class="row align-items-center justify-content-center">
                 <div class="">
                     <div class="card shadow zindex-100 mb-0">
-                        <div class="card-body px-md-5 py-5">
+                        <div v-if="loading" class="card-body px-md-5 py-5">
                             <div class="mb-5">
                                 <h6 class="h3">
                         Register to create Board
@@ -52,6 +52,13 @@
                                     <button type="submit" style="color: aliceblue; background-color: black;" name="register" class="btn btn-block btn-primary">Sign in</button></div>
                             </form>
                         </div>
+                        <div v-else class="card-body px-md-5 py-5">
+                            <div class="text-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div> 
+                        ></div>
                     </div>
                 </div>
             </div>
@@ -66,6 +73,7 @@ export default {
   name: 'RegisterView',
   methods: {
     async handleSubmit() {
+        this.loading = false
         const data ={
             username: this.username,
             email: this.email,
@@ -76,14 +84,13 @@ export default {
        console.log('response', response)
        this.$router.push('/login')
     }
-    
   },
   data() {
     return {
-      auth: false,
         username: '',
         email: '',
-        password: ''
+        password: '',
+        loading : true
     }
   }
 }

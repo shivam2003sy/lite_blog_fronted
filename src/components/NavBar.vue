@@ -22,10 +22,7 @@
         </ul>
       </div>
       <div class="actions">
-        <!-- <a href="#" @click="handleCreatePost()" class="add-post">
-          <i class="fa fa-plus"></i>
-        </a> -->
-        <a href="#" class="heart" @click="handleCreatePost()">
+        <a  href="#" class="heart" @click="handleCreatePost()">
           <i class="fa fa-plus"> 
           </i>
           </a>
@@ -54,19 +51,17 @@ export default {
           localStorage.removeItem('tocken')
           localStorage.removeItem('user')
           localStorage.removeItem('email')
-          this.$store.dispatch('user', null)
+          this.$store.dispatch('setUser', null)
           this.$router.push('/login')
-           
         },
         handleCreatePost(){
             this.$store.dispatch('modal', true)
-            
         }
     },
-    computed: {
-      
-    }
+    
 }
+
+
 </script>
  <style scoped>
   .instagram-navbar {

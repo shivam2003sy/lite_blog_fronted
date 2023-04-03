@@ -3,7 +3,7 @@
   <NavBar />
   <div class="profile-page">
     <header>
-      <profileHeader :user="user" :profile = "profile" />
+      <profileHeader :user="user" :profile = "userprofile" />
     </header>
     <main>
       <div class="profile-content">
@@ -33,19 +33,17 @@ export default {
   },
   data() {
     return {
-      user: {},
-      profile : {},
       posts: [],
       followers: []
     }
   },
   computed : {
-  //   user () {
-  //   return this.$store.state.user.user
-  // },
-  // userprofile () {
-  //   return this.$store.state.user.userprofile
-  // }
+    user () {
+    return this.$store.state.user.user
+  },
+  userprofile () {
+    return this.$store.state.user.userprofile
+  }
 },
 async mounted(){
   let user  = this.$route.params.username

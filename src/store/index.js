@@ -7,8 +7,6 @@ export default createStore({
   },
   getters: {
     // 3. Create a getter to return the user's name
-    user : state => state.user,
-    modal : state => state.modal
   },
 
   mutations: {
@@ -17,7 +15,7 @@ export default createStore({
     modal : (state, modal) => state.modal = modal
   },
   actions: {
-    user({commit}, user) {
+    setUser({commit}, user) {
       commit('user', user)
     },
     modal({commit}, modal) {
