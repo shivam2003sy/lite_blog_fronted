@@ -13,17 +13,22 @@
            </li>
           
               <li>
-            <router-link to="/profile">Profile</router-link>
+            <router-link :to="{ path: '/profile/' +  user}">Profile</router-link>
               </li>
+              <!-- <li>{{ user.user }}</li> -->
               <li>
                 <button @click="logout">Logout</button>
               </li>
         </ul>
       </div>
       <div class="actions">
-        <a href="#" class="add-post">
+        <!-- <a href="#" @click="handleCreatePost()" class="add-post">
           <i class="fa fa-plus"></i>
-        </a>
+        </a> -->
+        <a href="#" class="heart" @click="handleCreatePost()">
+          <i class="fa fa-plus"> 
+          </i>
+          </a>
         <a href="#" class="heart">
           <i class="fa fa-heart-o"></i>
         </a>
@@ -36,12 +41,12 @@
   
  
 <script>
+
 export default {
-    props: ['auth'],
     name: 'NavBar',
     data() {
         return {
-            search: ''
+          user  : localStorage.getItem('user'),
         }
     },
     methods: {
@@ -52,7 +57,14 @@ export default {
           this.$store.dispatch('user', null)
           this.$router.push('/login')
            
+        },
+        handleCreatePost(){
+            this.$store.dispatch('modal', true)
+            
         }
+    },
+    computed: {
+      
     }
 }
 </script>
