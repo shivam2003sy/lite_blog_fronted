@@ -1,6 +1,7 @@
 
 <template>
   <div class="profile-page">
+    <NavBar/>
     <header>
       <profileHeader :user="user" :profile = "profile" />
     </header>
@@ -20,12 +21,13 @@
 <script>
 
 import ProfileHeader from '@/components/ProfileHeader.vue'
-
+import NavBar from '@/components/NavBar.vue'
 import axios from 'axios'
 export default {
   name: 'ProfilePage',
   components: {
     ProfileHeader,
+    NavBar
     
   },
   data() {

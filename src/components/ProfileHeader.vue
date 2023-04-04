@@ -77,7 +77,7 @@
         }
       },
       isLoggedUser(){
-        if (this.$router.user !== localStorage.getItem('user')){
+        if (this.$router.user === localStorage.getItem('user')){
           return true
         }
         else{

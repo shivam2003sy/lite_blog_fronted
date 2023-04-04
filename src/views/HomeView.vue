@@ -1,15 +1,19 @@
 <template>
+  <div>
+  <NavBar/>
   {{user }}
   <p>{{ message }}</p>
-  <CreateBlogForm v-if="modal"/>
+  <CreateBlogForm v-if="modal"/></div>
 </template>
 <script>
 import CreateBlogForm from '@/components/CreateBlogForm.vue';
+import NavBar from '@/components/NavBar.vue';
 import axios from 'axios';
 export default {
   name: 'HomeView',
   components: {
-    CreateBlogForm
+    CreateBlogForm,
+    NavBar
   },
   computed: {
     modal() {
