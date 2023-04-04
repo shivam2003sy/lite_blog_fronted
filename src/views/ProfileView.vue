@@ -1,19 +1,17 @@
 
 <template>
-  <NavBar />
   <div class="profile-page">
     <header>
-      <profileHeader :user="user" :profile = "userprofile" />
+      <profileHeader :user="user" :profile = "profile" />
     </header>
     <main>
       <div class="profile-content">
-        <!-- <profilePosts :posts="posts" /> -->
+        <profilePosts :posts="posts" />
       </div>
       <div class="profile-sidebar">
-        <!-- <profileFollowers :followers="followers" /> -->
+        <profileFollowers :followers="followers" />
       </div>
     </main>
-
   </div>
   {{ user }}
   {{ profile }}
@@ -23,43 +21,38 @@
 
 import ProfileHeader from '@/components/ProfileHeader.vue'
 
-import NavBar from '@/components/NavBar.vue'
 import axios from 'axios'
 export default {
   name: 'ProfilePage',
   components: {
     ProfileHeader,
-    NavBar
+    
   },
   data() {
     return {
       posts: [],
-      followers: []
-    }
+      followers: [],
+      user : null,
+      profile : null
+}
   },
-  computed : {
-    user () {
-    return this.$store.state.user.user
-  },
-  userprofile () {
-    return this.$store.state.user.userprofile
-  }
-},
-async mounted(){
+async created(){
   let user  = this.$route.params.username
+  console.log('params',user)
   let response =  axios.get('api/users/'+user)
   response.then((res) => {
-    this.user = res.data.user
-    this.profile =  res.data.profile
+    console.log('response',res.data.data)
+    this.user = res.data.data.user
+    this.profile =  res.data.data.userprofile
   })
   .catch((err) => {
     console.log(err)
   })
-  let posts =  axios.get('/api/users/'+user+'/posts')
-  posts.then((res) => {
-    this.posts = res.data.data
-    console.log(res.data.data)
-  })
+  // let posts =  axios.get('/api/users/'+user+'/posts')
+  // posts.then((res) => {
+  //   this.posts = res.data.data
+  //   console.log(res.data.data)
+  // })
 }
 }
 </script>

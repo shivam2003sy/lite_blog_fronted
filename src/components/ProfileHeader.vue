@@ -4,7 +4,7 @@
         <!-- <img @click="" :src='h' alt="Profile picture"> -->
         <img  :src="profileImageUrl" class="rounded-circle"  alt="Avatar"  @click="uploadImage" />
         <div class="profile-header-text">
-          <h2>{{ user.user }}</h2>
+          <h2>{{ user.email }}</h2>
           <p class="text-muted mb-0 link">
             <!-- <a @click="changeProfile"       href= '#' v-if='isLoggedUser' class="text-muted mb-0 link">
               Change Profile
@@ -51,7 +51,7 @@
     },
     data() {
       return {
-        isFollowing: false,
+        isFollowing: true,
         // profileImageUrl: 'https://mdbcdn.b-cdn.net/img/new/avatars/2.webp',
         editProfile: false
       }
@@ -77,7 +77,7 @@
         }
       },
       isLoggedUser(){
-        if (this.user.user == localStorage.getItem('user')){
+        if (this.$router.user !== localStorage.getItem('user')){
           return true
         }
         else{
