@@ -1,16 +1,16 @@
 <template>
     <div class="profile-followers">
       <div class="followers-header">
-        <h3>Followers ({{ followers.length }})</h3>
+        <h3>Followings  ({{ following.length }})</h3>
       </div>
       <div class="followers-list">
-        <div class="follower" v-for="follower in followers" :key="follower.id">
+        <div class="follower" v-for="follower in following" :key="follower.id">
           <div class="follower-info">
             <h4>{{ follower.user}}</h4>
             <p>{{ follower.email}}</p>
           </div>
           <div>
-          <button @click="toggleFollow()">{{ isFollowing ? 'Following' : 'Follow' }}</button>
+          <button @click="toggleFollow()">unfollow</button>
         </div>
         </div>
       </div>
@@ -19,9 +19,9 @@
   
   <script>
   export default {
-    name: 'ProfileFollowers',
+    name: 'ProfileFollowing',
     props: {
-      followers: {
+      following: {
         type: Array,
         required: true
       }

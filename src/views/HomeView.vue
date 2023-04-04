@@ -1,8 +1,10 @@
 <template>
   <div>
   <NavBar/>
-  {{user }}
   <p>{{ message }}</p>
+  <div v-for=" i in users" :key="i.id">
+    <RouterLink :to="{name: 'profile', params: {username: i.user}}">{{i.user}}</RouterLink>
+  </div>
   <CreateBlogForm v-if="modal"/></div>
 </template>
 <script>
@@ -27,6 +29,7 @@ export default {
     return {
       loading : false,
       message: '',
+      users : []
     }
   },
   async created() {
@@ -49,6 +52,11 @@ export default {
           this.message = 'An error occurred. Please try again later.';
         }
       });
+    await axios.get('/api/all')
+    .then(response => {
+      console.log('all users' , response.data.data)
+      this.users = response.data.data
+    })
   },
   methods: {
     close() {

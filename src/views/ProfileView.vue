@@ -1,46 +1,66 @@
 
 <template>
-  <div class="profile-page">
+  <div >
     <NavBar/>
     <header>
-      <profileHeader :user="user" :profile = "profile" />
+      <profileHeader :user="user" :profile = "profile"  :isFollowing ='isFollowing' v-on:update:isFollowing="handleUpdateIsFollowing" />
     </header>
     <main>
-      <div class="profile-content">
+      <div >
         <profilePosts :posts="posts" />
       </div>
-      <div class="profile-sidebar">
+      <div v-if="isLoggedUser">
+      <div>
         <profileFollowers :followers="followers" />
       </div>
+      <div >
+        <profileFollowing :following="following" />
+      </div>
+    </div>
     </main>
   </div>
-  {{ user }}
-  {{ profile }}
-  {{ posts }}
 </template>
 <script>
 
 import ProfileHeader from '@/components/ProfileHeader.vue'
+import ProfilePosts from '@/components/ProfilePosts.vue'
+import ProfileFollowers from '@/components/ProfileFollowers.vue'
+import ProfileFollowing from '@/components/ProfileFollowing.vue'
 import NavBar from '@/components/NavBar.vue'
 import axios from 'axios'
 export default {
   name: 'ProfilePage',
   components: {
     ProfileHeader,
-    NavBar
-    
+    NavBar,
+    ProfilePosts,
+    ProfileFollowers,
+    ProfileFollowing
   },
   data() {
     return {
       posts: [],
       followers: [],
+      following: [],
       user : null,
-      profile : null
+      profile : null,
+      isLoggedUser: false,
+      isFollowing: false
 }
   },
+  methods: {
+    async handleUpdateIsFollowing(isFollowing){
+      this.isFollowing = isFollowing
+    },
+  },
 async created(){
+  // user to show in profile
   let user  = this.$route.params.username
   console.log('params',user)
+  if (user === localStorage.getItem('user')){
+    this.isLoggedUser = true
+  }
+  //fetching user details 
   let response =  axios.get('api/users/'+user)
   response.then((res) => {
     console.log('response',res.data.data)
@@ -50,40 +70,44 @@ async created(){
   .catch((err) => {
     console.log(err)
   })
-  // let posts =  axios.get('/api/users/'+user+'/posts')
-  // posts.then((res) => {
-  //   this.posts = res.data.data
-  //   console.log(res.data.data)
-  // })
+
+  //  fetching posts
+  let posts =  axios.get('/api/users/'+user+'/posts')
+  posts.then((res) => {
+    this.posts = res.data.data.posts
+    console.log('posts',this.posts)
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+  // fetching followers
+  let followers =  axios.get('/api/users/'+user+'/followers')
+  followers.then((res) => {
+
+    this.followers = res.data.data
+    console.log('followers',this.followers)
+    if (this.followers.some(follower => follower.user === localStorage.getItem('user')
+    )){
+      this.isFollowing = true
+      console.log('isFollowing',this.isFollowing)
+    }
+    else{
+      this.isFollowing = false
+      console.log('isFollowing',this.isFollowing)
+    }
+  })
+  .catch((err) => {
+    console.log(err.message)
+  })
+  // fetching following
+  let following =  axios.get('/api/users/'+user+'/followings')
+  following.then((res) => {
+    this.following = res.data.data
+    console.log('following',this.following)
+  })
+  .catch((err) => {
+    console.log(err.message)
+  })
 }
 }
 </script>
-
-
-
-
-
-
-<style scoped>
-.profile-page {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.profile-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.profile-sidebar {
-  width: 300px;
-  margin-left: 40px;
-}
-
-@media screen and (max-width: 1024px) {
-  .profile-sidebar {
-    display: none;
-  }
-}
-</style>

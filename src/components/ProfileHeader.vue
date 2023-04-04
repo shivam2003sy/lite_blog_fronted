@@ -4,14 +4,13 @@
         <!-- <img @click="" :src='h' alt="Profile picture"> -->
         <img  :src="profileImageUrl" class="rounded-circle"  alt="Avatar"  @click="uploadImage" />
         <div class="profile-header-text">
-          <h2>{{ user.email }}</h2>
+          <h2>{{ user.user }}</h2>
           <p class="text-muted mb-0 link">
             <!-- <a @click="changeProfile"       href= '#' v-if='isLoggedUser' class="text-muted mb-0 link">
               Change Profile
             </a> -->
             <!-- <input type="file" id="profile-image" class="custom-file-input" @change="onImageChange" accept="image/*"> -->
           </p>
-          
           <span>@{{ user.email }}</span>
           <p>{{ profile.bio }}</p>
           <div class="profile-header-stats">
@@ -20,7 +19,7 @@
               <span>posts</span>
             </div>
             <div>
-              <strong>{{ profile.no_of_followers }}</strong>
+              <strong>{{ followers }}</strong>
               <span>followers</span>
             </div>
             <div>
@@ -28,8 +27,12 @@
               <span>following</span>
             </div>
           </div>
-          <button v-if="!isLoggedUser" @click="toggleFollow">{{ isFollowing ? 'Unfollow' : 'Follow' }}</button>
+          
           <button v-if="isLoggedUser" @click="edit()">Edit Profile</button>
+          <div v-if="!isLoggedUser">
+          <button v-if="isFollowing" @click="toggleunfollow">Unfollow</button>
+          <button v-if="!isFollowing" @click="toggleFollow">follow</button>
+        </div>
         </div>
       </div>
       </div>
@@ -40,25 +43,48 @@
   
   <script>
   import EditProfile from '@/components/EditProfile.vue'
+  import axios from 'axios'
   export default {
     name: 'ProfileHeader',
     props: {
       user: Object,
-      profile: Object
+      profile: Object,
+      isFollowing : Boolean
     },
     components:{
       EditProfile
     },
     data() {
       return {
-        isFollowing: true,
         // profileImageUrl: 'https://mdbcdn.b-cdn.net/img/new/avatars/2.webp',
-        editProfile: false
+        editProfile: false,
+        followers : this.profile.no_of_followers
       }
     },
     methods: {
-      toggleFollow() {
-        this.isFollowing = !this.isFollowing
+      async toggleFollow() {
+        await axios.post(`/api/users/${this.user.user}/follow`)
+        .then((res) => {
+          console.log(res.data.data)
+          console.log(res.data.message)
+          this.$emit('update:isFollowing',true)
+          this.followers = this.followers + 1
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      },
+      async toggleunfollow() {
+        await axios.post(`/api/users/${this.user.user}/unfollow`)
+        .then((res) => {
+          console.log(res.data.data)
+          console.log(res.data.message)
+          this.$emit('update:isFollowing',false)
+          this.followers = this.followers - 1
+        })
+        .catch((err) => {
+          console.log(err)
+        })
       },
       edit(){
         this.editProfile = !this.editProfile
@@ -77,13 +103,10 @@
         }
       },
       isLoggedUser(){
-        if (this.$router.user === localStorage.getItem('user')){
-          return true
-        }
-        else{
-          return false
-        }
-      }
+        console.log('route user',this.$route.params.username)
+        console.log('local user',localStorage.getItem('user'))
+        return this.$route.params.username === localStorage.getItem('user');
+      },
     }
   }
   </script>
