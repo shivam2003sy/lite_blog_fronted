@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <h3>{{ post.title}}</h3>
                         <p class="card-text">{{ post.caption }}</p>
-                        <img :src="'http://127.0.0.1:5000/static/path/to/the/uploads/' + post.imgpath" :alt="post.title" class="img-fluid">
+                        <img :src="'http://farmproject.azurewebsites.net/static/path/to/the/uploads/' + post.imgpath" :alt="post.title" class="img-fluid">
                         <p>
                             {{ post.timestamp }}
                         </p>

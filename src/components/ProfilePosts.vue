@@ -4,7 +4,7 @@
     <div class="profile-posts__grid">
       <div v-for="post in posts" :key="post.id" class="profile-posts__item">
         <div class="profile-posts__image-wrapper">
-          <img :src="'http://127.0.0.1:5000/static/path/to/the/uploads/' + post.imgpath" class="profile-posts__image" />
+          <img :src="'http://farmproject.azurewebsites.net/static/path/to/the/uploads/' + post.imgpath" class="profile-posts__image" />
         </div>
         <div class="profile-posts__caption">
           <p class="profile-posts__title">{{ post.title }}</p>
