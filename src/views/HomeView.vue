@@ -5,25 +5,21 @@
   <div v-for=" i in users" :key="i.id">
     <RouterLink :to="{name: 'profile', params: {username: i.user}}">{{i.user}}</RouterLink>
   </div>
-  <CreateBlogForm v-if="modal"/></div>
   <FeedsComponent/>
+  </div>
 </template>
 <script>
-import CreateBlogForm from '@/components/CreateBlogForm.vue';
 import NavBar from '@/components/NavBar.vue';
 import FeedsComponent from '@/components/FeedsComponent.vue';
 import axios from 'axios';
 export default {
   name: 'HomeView',
   components: {
-    CreateBlogForm,
     NavBar,
     FeedsComponent
   },
   computed: {
-    modal() {
-      return this.$store.state.modal
-    },
+    
     user() {
       return this.$store.state.user
     }
@@ -61,10 +57,5 @@ export default {
       this.users = response.data.data
     })
   },
-  methods: {
-    close() {
-      this.$store.dispatch('modal', false)
-    }
-  }
 }
 </script>

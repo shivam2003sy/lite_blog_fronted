@@ -29,6 +29,16 @@ const routes = [
     name: 'profile',
     component: () => import(/* webpackChunkName: "profile" */ '../views/ProfileView.vue')
   }, 
+  {
+    path: '/post/:id',
+    name: 'post',
+    component: () => import(/* webpackChunkName: "post" */ '../views/PostView.vue')
+  },
+  {
+    path: '/create',
+    name: 'create',
+    component: () => import(/* webpackChunkName: "create" */ '../views/CreateView.vue')
+  },
 ]
 const router = createRouter({
   history:    createWebHistory(process.env.BASE_URL),

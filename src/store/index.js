@@ -3,7 +3,6 @@ export default createStore({
   state: {
     // 1. Create a state variable to hold the user's name
     user :{},
-    modal : false,
     followers : [],
     following : [],
   },
@@ -13,7 +12,6 @@ export default createStore({
   mutations: {
     // 2. Create a mutation to set the user's name
     user : (state, user) => state.user = user,
-    modal : (state, modal) => state.modal = modal,
     followers : (state, followers) => state.followers = followers,
     following : (state, following) => state.following = following,
     REMOVE_FOLLOWING : (state, followingIndex) => state.following.splice(followingIndex, 1),
@@ -22,9 +20,6 @@ export default createStore({
   actions: {
     setUser({commit}, user) {
       commit('user', user)
-    },
-    modal({commit}, modal) {
-      commit('modal', modal)
     },
     setfollowers({commit}, followers) {
       commit('followers', followers)

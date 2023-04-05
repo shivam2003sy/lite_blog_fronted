@@ -22,10 +22,10 @@
         </ul>
       </div>
       <div class="actions">
-        <a  href="#" class="heart" @click="handleCreatePost()">
+        <router-link to="/create">
           <i class="fa fa-plus"> 
           </i>
-          </a>
+        </router-link>
         <a href="#" class="heart">
           <i class="fa fa-heart-o"></i>
         </a>
