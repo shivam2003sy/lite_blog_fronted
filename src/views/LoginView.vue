@@ -174,5 +174,6 @@ export default {
 }
 .btn{
     width: 100px;
+    background-color: black;
 }
 </style>
