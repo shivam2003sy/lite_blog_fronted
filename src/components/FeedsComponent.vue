@@ -7,7 +7,6 @@
       <div v-else>
         <div v-for="post in posts" :key="post.id" class="card my-3">
           <div class="card-header">
-            <!-- <img :src="post.user.avatar_url" :alt="post.user.username" class="avatar mr-2"> -->
             <span class="font-weight-bold">{{ post.user.user }}</span>
           </div>
           <div class="card-body">
@@ -36,7 +35,6 @@
       </div>
     </div>
   </template>
-  
   <script>
   import axios from 'axios';
   import CommentBox from './CommentBox.vue';
@@ -73,11 +71,10 @@
         console.log('postId', postId);
         try {
           const response = await axios.post(`/api/posts/${postId}/comment`,{comment});
-          console.log('response', response.data.data);
             this.posts = this.posts.map(post => {
                 if (post.id === postId) {
-                post.comments.push(response.data.data);
-                console.log('this is comment response',response.data.data.comment)
+                post.comments = response.data.data;
+                console.log('this is comment response',response.data.data)
                 }
                 return post;
             });
