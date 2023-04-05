@@ -67,7 +67,7 @@
                     <button
                       type="submit"
                       name="login"
-                      class="btn btn-block btn-primary"
+                      class="btn btn-block btn-dark logInBtn"
                     > <b>
                       Log In
                     </b>
@@ -80,10 +80,10 @@
                   <hr />
                 </div>
                 <div class="logIn">
-                  <button class=" newAcc text-muted mb-0 link">
+                  <button class=" newAcc btn btn-light text-muted mb-0 link ">
                     <router-link to="/register" class="router-link">
                      <b> Create new account</b></router-link>
-                    </button>
+                  </button>
                 </div>
               </div>
             </div>
@@ -137,9 +137,9 @@ export default {
 }
 .router-link:hover {
   color: rgb(8, 8, 10);
-
-  text-decoration: underline;
-  
+}
+.newAcc{
+    border: 1px solid black;
 }
 .logIn {
   text-align: center;
@@ -147,11 +147,13 @@ export default {
 .logInCard {
   height: 400px;
 }
-.btn {
+.logInBtn {
   position: absolute;
   left: 50%;
   transform: translate(-50%, -50%);
   margin-top: 20px;
+  width: 100px;
+ 
 }
 
 .line-with-text {
@@ -172,8 +174,5 @@ export default {
 .logInCard{
     height: 480px;
 }
-.btn{
-    width: 100px;
-    background-color: black;
-}
+
 </style>
