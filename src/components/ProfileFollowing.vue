@@ -1,42 +1,52 @@
 <template>
-    <div class="profile-followers">
-      <div class="followers-header">
-        <h3>Followings  ({{ following.length }})</h3>
-      </div>
-      <div class="followers-list">
-        <div class="follower" v-for="follower in following" :key="follower.id">
-          <div class="follower-info">
-            <h4>{{ follower.user}}</h4>
-            <p>{{ follower.email}}</p>
-          </div>
-          <div>
-          <button @click="toggleFollow()">unfollow</button>
+  <div class="profile-followers">
+    <div class="followers-header">
+      <h3>Followings ({{ following.length }})</h3>
+    </div>
+    <div class="followers-list">
+      <div class="follower" v-for="follower in following" :key="follower.id">
+        <div class="follower-info">
+          <h4>{{ follower.user }}</h4>
+          <p>{{ follower.email }}</p>
         </div>
+        <div>
+          <button @click="toggleFollow(follower)">
+            {{ following.includes(follower.id) ? 'unfollow' : 'follow' }}
+          </button>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'ProfileFollowing',
-    props: {
-      following: {
-        type: Array,
-        required: true
+  </div>
+</template>
+
+<script>
+export default {
+  name: "ProfileFollowing",
+  data() {
+    return {};
+  },
+  computed: {
+    following() {
+      return this.$store.state.following;
+    },
+  },
+  methods: {
+    toggleFollow(follower) {
+      const followingIndex = this.$store.state.following.findIndex(
+        (f) => f.id === follower.id
+      );
+      if (followingIndex > -1) {
+        // If the user is already following this follower, unfollow them
+        this.$store.commit("REMOVE_FOLLOWING", followingIndex);
+      } else {
+        // Otherwise, follow the user
+        this.$store.commit("ADD_FOLLOWING", follower);
       }
     },
-    data() {
-      return {
-      }
-    },
-    methods: {
-      toggleFollow() {
-        this.isFollowing = !this.isFollowing
-      }
-    }
-  }
-  </script>
+  },
+};
+</script>
+
   
   <style scoped>
   .profile-followers {

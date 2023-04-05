@@ -6,16 +6,19 @@
     <RouterLink :to="{name: 'profile', params: {username: i.user}}">{{i.user}}</RouterLink>
   </div>
   <CreateBlogForm v-if="modal"/></div>
+  <FeedsComponent/>
 </template>
 <script>
 import CreateBlogForm from '@/components/CreateBlogForm.vue';
 import NavBar from '@/components/NavBar.vue';
+import FeedsComponent from '@/components/FeedsComponent.vue';
 import axios from 'axios';
 export default {
   name: 'HomeView',
   components: {
     CreateBlogForm,
-    NavBar
+    NavBar,
+    FeedsComponent
   },
   computed: {
     modal() {

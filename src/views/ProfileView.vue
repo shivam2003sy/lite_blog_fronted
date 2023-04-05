@@ -11,10 +11,10 @@
       </div>
       <div v-if="isLoggedUser">
       <div>
-        <profileFollowers :followers="followers" />
+        <profileFollowers  />
       </div>
       <div >
-        <profileFollowing :following="following" />
+        <profileFollowing />
       </div>
     </div>
     </main>
@@ -40,8 +40,6 @@ export default {
   data() {
     return {
       posts: [],
-      followers: [],
-      following: [],
       user : null,
       profile : null,
       isLoggedUser: false,
@@ -83,9 +81,11 @@ async created(){
   // fetching followers
   let followers =  axios.get('/api/users/'+user+'/followers')
   followers.then((res) => {
-
     this.followers = res.data.data
+    this.$store.dispatch('setfollowers', res.data.data)
     console.log('followers',this.followers)
+    console.log('from store followers',this.$store.state
+    .followers)
     if (this.followers.some(follower => follower.user === localStorage.getItem('user')
     )){
       this.isFollowing = true
@@ -103,7 +103,11 @@ async created(){
   let following =  axios.get('/api/users/'+user+'/followings')
   following.then((res) => {
     this.following = res.data.data
-    console.log('following',this.following)
+    console.log('following',res.data.data)
+    this.$store.dispatch('setfollowing',res.data.data)
+    console.log('from store following',this.$store.state
+    .following)
+
   })
   .catch((err) => {
     console.log(err.message)

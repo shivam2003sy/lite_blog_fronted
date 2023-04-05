@@ -21,18 +21,20 @@
   export default {
     name: 'ProfileFollowers',
     props: {
-      followers: {
-        type: Array,
-        required: true
-      }
     },
     data() {
       return {
+
       }
     },
     methods: {
       toggleFollow() {
         this.isFollowing = !this.isFollowing
+      }
+    },
+    computed: {
+      followers () {
+        return this.$store.state.followers
       }
     }
   }

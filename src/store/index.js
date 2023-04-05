@@ -3,16 +3,21 @@ export default createStore({
   state: {
     // 1. Create a state variable to hold the user's name
     user :{},
-    modal : false
+    modal : false,
+    followers : [],
+    following : [],
   },
   getters: {
     // 3. Create a getter to return the user's name
   },
-
   mutations: {
     // 2. Create a mutation to set the user's name
     user : (state, user) => state.user = user,
-    modal : (state, modal) => state.modal = modal
+    modal : (state, modal) => state.modal = modal,
+    followers : (state, followers) => state.followers = followers,
+    following : (state, following) => state.following = following,
+    REMOVE_FOLLOWING : (state, followingIndex) => state.following.splice(followingIndex, 1),
+    ADD_FOLLOWING : (state,follower) => state.following.push(follower),
   },
   actions: {
     setUser({commit}, user) {
@@ -20,9 +25,13 @@ export default createStore({
     },
     modal({commit}, modal) {
       commit('modal', modal)
-    }
+    },
+    setfollowers({commit}, followers) {
+      commit('followers', followers)
+    },
+    setfollowing({commit}, following) {
+      commit('following', following)
+    },
   },
-  modules: {
-  }
 }
 )
