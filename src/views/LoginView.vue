@@ -1,6 +1,6 @@
 <template>
   <div class="modal-body row">
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6 mt-3">
       <div class="card align-middle" style="width: auto">
         <img
           src="https://source.unsplash.com/featured?technology"
@@ -9,12 +9,12 @@
         />
       </div>
     </div>
-    <div class="col-12 col-md-6 mt-4">
+    <div class="col-12 col-md-6 mt-3">
       <div class="container">
         <div class="row align-items-center justify-content-center">
           <div>
-            <div class="card logInCard shadow zindex-100 mb-0">
-              <div class="card-body logInCard">
+            <div class="card shadow zindex-100 mb-0">
+              <div class="card-body">
                 <div class="mb-5 logIn">
                   <div v-if="error" class="alert alert-danger">{{ error }}</div>
                   <h6 class="h1">
@@ -63,11 +63,12 @@
                     </div>
                   </div>
 
-                  <div class="mt-4">
+                  <div class="mt-4 logInBtn">
                     <button
                       type="submit"
                       name="login"
-                      class="btn btn-block btn-dark logInBtn"
+                      style="width: 100px;"
+                      class="btn btn-block btn-dark "
                     > <b>
                       Log In
                     </b>
@@ -144,15 +145,8 @@ export default {
 .logIn {
   text-align: center;
 }
-.logInCard {
-  height: 400px;
-}
 .logInBtn {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin-top: 20px;
-  width: 100px;
+  text-align: center;
  
 }
 
@@ -161,7 +155,7 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 75px;
+  margin-top: 20px;
   margin-bottom: 15px;
 }
 
@@ -170,9 +164,6 @@ export default {
   border: 0.1px solid black;
   margin: 0 10px;
  
-}
-.logInCard{
-    height: 480px;
 }
 
 </style>
