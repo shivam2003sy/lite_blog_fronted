@@ -2,9 +2,9 @@
   <div>
   <NavBar/>
   <p>{{ message }}</p>
-  <div v-for=" i in users" :key="i.id">
+  <!-- <div v-for=" i in users" :key="i.id">
     <RouterLink :to="{name: 'profile', params: {username: i.user}}">{{i.user}}</RouterLink>
-  </div>
+  </div> -->
   <FeedsComponent/>
   </div>
 </template>

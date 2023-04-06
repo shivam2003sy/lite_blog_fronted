@@ -1,171 +1,211 @@
 <template>
-    <div class="container my-4">
-      <div v-if="loading" class="text-center">
-        <i class="fa fa-spinner fa-spin fa-2x"></i>
-      </div>
+  <div class="container my-4">
+    <div v-if="loading" class="text-center">
+      <i class="fa fa-spinner fa-spin fa-2x"></i>
+    </div>
 
-      <div v-else-if="message" class="alert alert-danger">{{ message }}</div>
-      <div v-else>
-        <div v-for="post in posts" :key="post.id" class="card my-3">
-          <div class="card-header">
-            <RouterLink :to="{name: 'profile', params: {username  : post.user.user}}">
-            <span class="font-weight-bold">{{ post.user.user }}</span>
-            </RouterLink>
-          </div>
-          <div class="card-body">
-            <h5>
-              <RouterLink 
-                    :to="{name : 'post' , params : {id : post.id} }" >
+    <div v-else-if="message" class="alert alert-danger">{{ message }}</div>
+    <div v-else>
+      <div v-for="post in posts" :key="post.id" class="card my-3">
+        <div class="card-header">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbx91EGmHFTBBCS_mHlBbZEFxpk_RaTwdTtD9tD-F8dA&usqp=CAU&ec=48665698"
+            class="rounded-circle" style="height: 30px; width: 28px;"
+            alt="Avatar"
+          />
+          <RouterLink
+            :to="{ name: 'profile', params: { username: post.user.user } }"
+          >
+            <span class="font-weight-bold userName">
+              <b>{{ post.user.user }}</b>
+            </span>
+          </RouterLink>
+        </div>
+        <div class="card-body">
+          <h5>
+            <RouterLink :to="{ name: 'post', params: { id: post.id } }">
+              <span class="postTitle">
                 {{ post.title }}
-              </RouterLink>
-            </h5>
-            <img :src="'http://farmproject.azurewebsites.net/static/path/to/the/uploads/' + post.imgpath" :alt="post.title" class="img-fluid">
-            <p class="card-text">{{ post.caption }}</p>
-            <div class="row">
-              <div class="col-md-6">
-                <p class="font-weight-bold">{{ post.timestamp }}</p> 
-        
-            </div>
-              <div class="col-md-6 text-right"> 
-                <strong>Likes: {{ post.no_of_likes }}</strong>
-                <div v-if="!islikes(post.likes)">
-                <button @click="likePost(post.id)" class="btn btn-outline-primary btn-sm mr-2">
-                  <i class="fa fa-heart"></i> 
+              </span>
+            </RouterLink>
+          </h5>
+          <img
+            :src="
+              'http://farmproject.azurewebsites.net/static/path/to/the/uploads/' +
+              post.imgpath
+            "
+            :alt="post.title"
+            class="img-fluid"
+          />
+          <div class="row">
+            <!-- <div class="col-md-6">
+              <p class="font-weight-bold">{{ post.timestamp }}</p>
+            </div> -->
+            <div class="col-md-6 text-right">
+              <strong>Likes: {{ post.no_of_likes }}</strong>
+              <div v-if="!islikes(post.likes)">
+                <button
+                  @click="likePost(post.id)"
+                  class="btn btn-dark btn-sm mr-2"
+                >
+                  <i class="fa fa-heart"></i>
                 </button>
-            </div>
-            <div v-if="islikes(post.likes)">
-                <button @click="unlikePost(post.id)" class="btn btn-outline-primary btn-sm mr-2">
-                  <i class="fa fa-heart"></i> {{ post.no_of_likes }} unLike
+              </div>
+
+              <div v-if="islikes(post.likes)">
+                <button
+                  @click="unlikePost(post.id)"
+                  class="btn btn-light btn-sm mr-2"
+                >
+                  <i class="fa fa-heart"></i> {{ post.no_of_likes }}
                 </button>
-            </div>
-                <strong>Comments: {{ post.comments.length }}</strong>
               </div>
-              <div v-for="comment in post.comments" :key="comment.id" class="col-md-12">
-                <p class="font-weight-bold">{{ comment.user.user }}</p>
-                <p>{{ comment.comment }}</p>
-              </div>
-  
-              <!-- comment box -->
-              <comment-box :post-id="post.id" @submit-comment="submitComment"></comment-box>
+              <strong>Comments: {{ post.comments.length }}</strong>
             </div>
+            <div
+              v-for="comment in post.comments"
+              :key="comment.id"
+              class="col-md-12"
+            >
+              <p class="font-weight-bold " > <b>{{ comment.user.user }}</b> {{ comment.comment }}</p>
+              
+            </div>
+
+            <!-- comment box -->
+            <comment-box
+              :post-id="post.id"
+              @submit-comment="submitComment"
+            ></comment-box>
+          </div>
+          <p class="card-text mt-3">
+            <RouterLink
+              :to="{ name: 'profile', params: { username: post.user.user } }"
+            >
+              <span class="font-weight-bold caption">
+                <b>{{ post.user.user }}</b>
+              </span>
+            </RouterLink>
+            {{ post.caption }}
+          </p>
+          <div class="col-md-6  timeSet">
+            <p class="font-weight-bold">{{ post.timestamp }}</p>
           </div>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  import axios from 'axios';
-  import CommentBox from './CommentBox.vue';
-  
-  export default {
-    name: 'FeedsComponent',
-    components: {
-      CommentBox
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+import CommentBox from "./CommentBox.vue";
+
+export default {
+  name: "FeedsComponent",
+  components: {
+    CommentBox,
+  },
+  data() {
+    return {
+      loading: true,
+      message: "",
+      posts: [],
+    };
+  },
+  computed: {
+    loggedIn() {
+      return localStorage.getItem("user");
     },
-    data() {
-      return {
-        loading: true,
-        message: '',
-        posts: [],
-        
+  },
+  async created() {
+    try {
+      const response = await axios.get("/api/feeds");
+      this.posts = response.data.data;
+      console.log("feeds", response.data.data);
+    } catch (error) {
+      if (error.response && error.response.status === 500) {
+        this.message = "There was a server error. Please refresh the page.";
+      } else {
+        this.message = "An error occurred. Please try again later.";
       }
+    }
+    this.loading = false;
+  },
+  methods: {
+    islikes(users) {
+      for (let i = 0; i < users.length; i++) {
+        if (users[i].user == localStorage.getItem("user")) {
+          console.log("user", users[i].user);
+          return true;
+        }
+      }
+      return false;
     },
-    computed:{
-        loggedIn(){
-            return localStorage.getItem('user');
-        } 
-    },
-    async created() {
+    async submitComment(comment, postId) {
+      console.log("comment", comment);
+      console.log("postId", postId);
       try {
-        const response = await axios.get('/api/feeds');
-        this.posts = response.data.data;
-        console.log('feeds', response.data.data);
-       
+        const response = await axios.post(`/api/posts/${postId}/comment`, {
+          comment,
+        });
+        this.posts = this.posts.map((post) => {
+          if (post.id === postId) {
+            post.comments = response.data.data;
+            console.log("this is comment response", response.data.data);
+          }
+          return post;
+        });
       } catch (error) {
         if (error.response && error.response.status === 500) {
-          this.message = 'There was a server error. Please refresh the page.';
+          this.message = "There was a server error. Please refresh the page.";
         } else {
-          this.message = 'An error occurred. Please try again later.';
+          this.message = "An error occurred. Please try again later.";
         }
       }
-      this.loading = false;
     },
-    methods: {
-        islikes(users){
-            for (let i = 0; i < users.length; i++) {
-                if (users[i].user == localStorage.getItem('user')) {
-                    console.log('user',users[i].user)
-                    return true;
-                }
-            }
-            return false;
-        },
-      async submitComment( comment  , postId) {
-        console.log('comment', comment);
-        console.log('postId', postId);
-        try {
-          const response = await axios.post(`/api/posts/${postId}/comment`,{comment});
-            this.posts = this.posts.map(post => {
-                if (post.id === postId) {
-                post.comments = response.data.data;
-                console.log('this is comment response',response.data.data)
-                }
-                return post;
-            });
-        } catch (error) {
-          if (error.response && error.response.status === 500) {
-            this.message = 'There was a server error. Please refresh the page.';
-          } else {
-            this.message = 'An error occurred. Please try again later.';
-          }
-        }
-      },
-        async likePost(postId) {
-            try {
+    async likePost(postId) {
+      try {
         const response = await axios.post(`/api/posts/${postId}/like`);
         const updatedPost = response.data.data;
-        console.log('updatedPost like ', updatedPost);
-        this.posts = this.posts.map(post => {
-        if (post.id === postId) {
-        post.no_of_likes  = post.no_of_likes + 1;
+        console.log("updatedPost like ", updatedPost);
+        this.posts = this.posts.map((post) => {
+          if (post.id === postId) {
+            post.no_of_likes = post.no_of_likes + 1;
+          }
+          return post;
+        });
+      } catch (error) {
+        if (error.response && error.response.status === 500) {
+          this.message = "There was a server error. Please refresh the page.";
+        } else {
+          this.message = "An error occurred. Please try again later.";
+        }
       }
-      return post;
-    
-    });
-  } catch (error) {
-    if (error.response && error.response.status === 500) {
-      this.message = 'There was a server error. Please refresh the page.';
-    } else {
-      this.message = 'An error occurred. Please try again later.';
-    }
-  }
-},
-async unlikePost(postId) {
-    try {
+    },
+    async unlikePost(postId) {
+      try {
         const response = await axios.post(`/api/posts/${postId}/unlike`);
         const updatedPost = response.data.data;
-        console.log('updatedPost unlike ', updatedPost);
-        this.posts = this.posts.map(post => {
-            if (post.id === postId) {
-            post.no_of_likes  = post.no_of_likes - 1;
-            }
-            return post;
+        console.log("updatedPost unlike ", updatedPost);
+        this.posts = this.posts.map((post) => {
+          if (post.id === postId) {
+            post.no_of_likes = post.no_of_likes - 1;
+          }
+          return post;
         });
-        } catch (error) {
+      } catch (error) {
         if (error.response && error.response.status === 500) {
-            this.message = 'There was a server error. Please refresh the page.';
+          this.message = "There was a server error. Please refresh the page.";
         } else {
-            this.message = 'An error occurred. Please try again later.';
+          this.message = "An error occurred. Please try again later.";
         }
-    }
-},
-    }
-    }
+      }
+    },
+  },
+};
+</script>
 
-  </script>
-  
-  <style>
+<style>
 .avatar {
   width: 40px;
   height: 40px;
@@ -182,5 +222,28 @@ async unlikePost(postId) {
 
 .post-like:hover {
   color: #007bff;
+}
+
+.userName {
+  color: black;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    margin-left: 15px;
+    font-size: 18px;
+   
+}
+a {
+  text-decoration: none;
+}
+
+.postTitle {
+  color: black;
+}
+.timeSet{
+  text-align: right;
+}
+.caption{
+  color: black;
+  
 }
 </style>
