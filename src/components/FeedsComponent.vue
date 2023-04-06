@@ -19,7 +19,7 @@
                 {{ post.title }}
               </RouterLink>
             </h5>
-            <img :src="'http://farmproject.azurewebsites.net/static/path/to/the/uploads/' + post.imgpath" :alt="post.title" class="img-fluid">
+            <img :src="'http://localhost:5000/static/path/to/the/uploads/' + post.imgpath" :alt="post.title" class="img-fluid">
             <p class="card-text">{{ post.caption }}</p>
             <div class="row">
               <div class="col-md-6">
