@@ -5,7 +5,8 @@
     </div>
 
     <div v-else-if="message" class="alert alert-danger">{{ message }}</div>
-    <div v-else>
+    <div v-else class="row">
+      <div class="col-md-6 col-sm-12">
       <div v-for="post in posts" :key="post.id" class="card my-3">
         <div class="card-header">
           <img
@@ -35,7 +36,7 @@
               post.imgpath
             "
             :alt="post.title"
-            class="img-fluid"
+            class="img-fluid imgSize"
           />
           <div class="row">
             <!-- <div class="col-md-6">
@@ -77,7 +78,7 @@
               @submit-comment="submitComment"
             ></comment-box>
           </div>
-          <p class="card-text mt-3">
+          <p class="card-text mt-3 mb-5">
             <RouterLink
               :to="{ name: 'profile', params: { username: post.user.user } }"
             >
@@ -92,6 +93,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -239,11 +241,26 @@ a {
 .postTitle {
   color: black;
 }
-.timeSet{
-  text-align: right;
-}
+/* .timeSet{
+  text-align:end;
+} */
 .caption{
   color: black;
   
+}
+.card {
+  position: relative;
+  background-color: rgb(238, 238, 238);
+}
+.timeSet {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.card {
+ 
+  background-color: #fbfbfb;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 </style>
