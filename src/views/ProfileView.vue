@@ -1,6 +1,6 @@
 
 <template>
-  <div >
+  <div class="bodyColor">
     <NavBar/>
     <header>
       <profileHeader :user="user" :profile = "profile"  :isFollowing ='isFollowing' v-on:update:isFollowing="handleUpdateIsFollowing" />
@@ -115,3 +115,9 @@ async created(){
 }
 }
 </script>
+
+<style>
+  .bodyColor{
+   background-color: rgb(248, 248, 248);
+  }
+</style>

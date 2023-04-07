@@ -1,30 +1,33 @@
 <template>
-  <div class="container mt-5">
+  <div class="container">
     <div class="profile-header">
       <div class="profile-header-info">
         <!-- <img @click="" :src='h' alt="Profile picture"> -->
         <img  :src="profileImageUrl" class="rounded-circle"  alt="Avatar"  @click="uploadImage" />
         <div class="profile-header-text">
-          <h2>{{ user.user }}</h2>
+          <h2> <b> {{ user.user }} </b></h2>
           <p class="text-muted mb-0 link">
             <!-- <a @click="changeProfile"       href= '#' v-if='isLoggedUser' class="text-muted mb-0 link">
               Change Profile
             </a> -->
             <!-- <input type="file" id="profile-image" class="custom-file-input" @change="onImageChange" accept="image/*"> -->
-          </p>
-          <span>@{{ user.email }}</span>
+          </p> 
+          <span> <b> @{{ user.email }} </b>  </span>
           <p>{{ profile.bio }}</p>
           <div class="profile-header-stats">
             <div>
-              <strong>{{ profile.no_of_posts}}</strong>
+              <div class="mid">
+              <strong>{{ profile.no_of_posts}}</strong></div>
               <span>posts</span>
             </div>
             <div>
-              <strong>{{ followers }}</strong>
+              <div class="mid1">
+              <strong>{{ followers }}</strong></div>
               <span>followers</span>
             </div>
             <div>
-              <strong>{{ profile.no_of_following }}</strong>
+                <div class="mid1">
+              <strong>{{ profile.no_of_following }}</strong></div>
               <span>following</span>
             </div>
           </div>
@@ -41,6 +44,7 @@
         <EditProfile/>
         </div>
       </div>
+      <hr>
   </template>
   
   <script>
@@ -114,11 +118,15 @@
   </script>
   
   <style scoped>
+
+.container{
+  margin-top: 25px;
+}
   .profile-header {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-left: 10px;
+    /* margin-left: 10px; */
     margin-bottom: 20px;
   }
   
@@ -210,5 +218,11 @@
   cursor: pointer;
   color: blue;
   text-decoration: underline;
+}
+.mid{
+ margin-left: 15px;
+}
+.mid1{
+ margin-left: 25px;
 }
   </style>

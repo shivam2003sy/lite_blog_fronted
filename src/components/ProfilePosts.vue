@@ -59,6 +59,7 @@ export default {
 </script>
 
 <style scoped>
+
 .profile-posts {
   margin-top: 2rem;
 }
