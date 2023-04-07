@@ -1,4 +1,5 @@
 <template>
+  <div class="container mt-5">
     <div class="profile-header">
       <div class="profile-header-info">
         <!-- <img @click="" :src='h' alt="Profile picture"> -->
@@ -39,6 +40,7 @@
       <div v-if="editProfile">
         <EditProfile/>
         </div>
+      </div>
   </template>
   
   <script>
@@ -135,6 +137,8 @@
   .profile-header-text {
     display: flex;
     flex-direction: column;
+    /* margin-left:5px; */
+    
   }
   
   .profile-header-text h2 {

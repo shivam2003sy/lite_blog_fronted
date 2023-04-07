@@ -1,18 +1,36 @@
 <template>
   <div class="profile-posts">
-    <h2 class="profile-posts__heading">Posts</h2>
-    <div class="profile-posts__grid">
-      <div v-for="post in posts" :key="post.id" class="profile-posts__item">
-        <div class="profile-posts__image-wrapper">
-          <img :src="'http://farmproject.azurewebsites.net/static/path/to/the/uploads/' + post.imgpath" class="profile-posts__image" />
-        </div>
-        <div class="profile-posts__caption">
-          <p class="profile-posts__title">{{ post.title }}</p>
-          <p>{{ post.caption }}</p>
-          <p>{{ post.no_of_likes }} likes</p>
-          <p>{{ formatDate(post.timestamp) }}</p>
-        </div>
+    <div class="container">
+      <h2 class="profile-posts__heading">Posts</h2>
+      
+          <div class="profile-posts__grid">
+            <div
+              v-for="post in posts"
+              :key="post.id"
+              class="profile-posts__item"
+            >
+            <div class="row">
+        <div class="col-md-3 col-sm-12">
+              <div class="profile-posts__image-wrapper">
+                <img
+                  :src="
+                    'http://farmproject.azurewebsites.net/static/path/to/the/uploads/' +
+                    post.imgpath
+                  "
+                  class="profile-posts__image"
+                />
+              </div>
+            </div>
       </div>
+              <div class="profile-posts__caption">
+                <p class="profile-posts__title">{{ post.title }}</p>
+                <p>{{ post.caption }}</p>
+                <p>{{ post.no_of_likes }} likes</p>
+                <p>{{ formatDate(post.timestamp) }}</p>
+              </div>
+            </div>
+          </div>
+       
     </div>
   </div>
 </template>
