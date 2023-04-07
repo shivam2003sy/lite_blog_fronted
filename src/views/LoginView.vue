@@ -7,6 +7,7 @@
           class="card-img-top"
           alt="..."
         />
+        
       </div>
     </div>
     <div class="col-12 col-md-6 mt-3">
@@ -16,16 +17,23 @@
             <div class="card shadow zindex-100 mb-0">
               <div class="card-body">
                 <div class="mb-5 logIn">
-                  <div v-if="error" class="alert alert-danger">{{ error }}</div>
+                  <!-- <div v-if="error" class="alert alert-danger">{{ error }}</div>
+                   -->
+                  <NotifiCation v-if="error" type="error" :message="error" />
                   <h6 class="h1">
+                    <h6 class="h2 join">
+                      <img 
+                      src="@/assets/images/logo.jpeg"
+                      alt="Logo"
+                      height="100"
+                      class="d-inline-block align-top"
+                      />
+                  </h6>
                     <strong> WELCOME!</strong>
                   </h6>
                   <h6 class="h2">
                     Login To Your Account
                   </h6>
-                  <!-- <p class="text-muted mb-0 link">
-                                              <router-link to="/register" class="router-link"> <b>Create new account </b></router-link>
-                                        </p> -->
                 </div>
                 <span class="clearfix"></span>
                 <form @submit.prevent="handelLogin(e)" class="mt-4">
@@ -81,10 +89,11 @@
                   <hr />
                 </div>
                 <div class="logIn">
-                  <button class=" newAcc btn btn-light text-muted mb-0 link ">
-                    <router-link to="/register" class="router-link">
-                     <b> Create new account</b></router-link>
+                  <router-link to="/register" class="router-link">
+                  <button class="newAcc btn btn-light text-muted mb-0 link ">
+                     <b style="color: black;"> Create new account</b>
                   </button>
+                    </router-link>
                 </div>
               </div>
             </div>
@@ -96,9 +105,12 @@
 </template>
 <script>
 import axios from "axios";
-
+import NotifiCation from "@/components/NotifiCation.vue";
 export default {
   name: "LoginView",
+  components: {
+    NotifiCation,
+  },
   data() {
     return {
       error: "",
@@ -118,6 +130,7 @@ export default {
           localStorage.setItem("tocken", response.data.data.id);
           localStorage.setItem("user", response.data.data.user);
           localStorage.setItem("email", response.data.data.email);
+          localStorage.setItem('email_verified', response.data.data.email_verified)
           //  set user in store
           this.$router.push("/");
         }
@@ -144,6 +157,7 @@ export default {
 }
 .logIn {
   text-align: center;
+  color: black;
 }
 .logInBtn {
   text-align: center;

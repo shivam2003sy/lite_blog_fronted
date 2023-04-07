@@ -33,7 +33,7 @@
           </h5>
           <img
             :src="
-              'http://farmproject.azurewebsites.net/static/path/to/the/uploads/' +
+              'http://localhost:5000/static/path/to/the/uploads/' +
               post.imgpath
             "
             :alt="post.title"

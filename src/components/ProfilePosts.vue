@@ -24,7 +24,7 @@
               <div class="profile-posts__image-wrapper">
                 <img
                   :src="
-                    'http://farmproject.azurewebsites.net/static/path/to/the/uploads/' +
+                    'http://localhost:5000/static/path/to/the/uploads/' +
                     post.imgpath
                   "
                   class="profile-posts__image"
