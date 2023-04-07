@@ -6,6 +6,7 @@
 
     <div v-else-if="message" class="alert alert-danger">{{ message }}</div>
     <div v-else class="row">
+      <div class="col-md-3"></div>
       <div class="col-md-6 col-sm-12">
       <div v-for="post in posts" :key="post.id" class="card my-3">
         <div class="card-header">
@@ -93,6 +94,7 @@
           </div>
         </div>
       </div>
+      <div class="col-md-3"></div>
     </div>
     </div>
   </div>
