@@ -127,7 +127,7 @@
     flex-direction: column;
     justify-content: space-between;
     /* margin-left: 10px; */
-    margin-bottom: 20px;
+    margin-bottom: 5px;
   }
   
   .profile-header-info {

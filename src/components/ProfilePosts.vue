@@ -2,15 +2,25 @@
   <div class="profile-posts">
     <div class="container">
       <h2 class="profile-posts__heading">Posts</h2>
-      
-          <div class="profile-posts__grid">
-            <div
-              v-for="post in posts"
-              :key="post.id"
-              class="profile-posts__item"
-            >
-            <div class="row">
-        <div class="col-md-3 col-sm-12">
+
+      <div class="profile-posts__grid">
+        <div v-for="post in posts" :key="post.id" class="profile-posts__item">
+          <div class="row text">
+            <div class="col-sm-6">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbx91EGmHFTBBCS_mHlBbZEFxpk_RaTwdTtD9tD-F8dA&usqp=CAU&ec=48665698"
+                class="rounded-circle"
+                style="height: 45px; width: 50px"
+                alt="Avatar"
+              />
+            </div>
+            <div class="col-sm-6">
+              <h3>Shivam</h3>
+            </div>
+            <hr />
+          </div>
+          <div class="row">
+            <div class="col-md-3 col-sm-12">
               <div class="profile-posts__image-wrapper">
                 <img
                   :src="
@@ -21,16 +31,15 @@
                 />
               </div>
             </div>
-      </div>
-              <div class="profile-posts__caption">
-                <p class="profile-posts__title">{{ post.title }}</p>
-                <p>{{ post.caption }}</p>
-                <p>{{ post.no_of_likes }} likes</p>
-                <p>{{ formatDate(post.timestamp) }}</p>
-              </div>
-            </div>
           </div>
-       
+          <div class="profile-posts__caption">
+            <p class="profile-posts__title">{{ post.title }}</p>
+            <p>{{ post.caption }}</p>
+            <p>{{ post.no_of_likes }} likes</p>
+            <p>{{ formatDate(post.timestamp) }}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -59,13 +68,24 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 768px) {
+  .text {
+    display: block;
+  }
+}
 
+/* Styles for large screens */
+@media (min-width: 769px) {
+  .text {
+    display: none;
+  }
+}
 .profile-posts {
   margin-top: 2rem;
 }
 
 .profile-posts__heading {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
   margin-bottom: 1rem;
 }
