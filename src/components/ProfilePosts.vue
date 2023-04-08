@@ -3,7 +3,7 @@
     <div class="container">
       <h2 class="profile-posts__heading">Posts</h2>
 
-      <div class="row">
+      <div class="row m-1" >
         <div v-for="post in posts" :key="post.id" class="col-md-4 col-sm-6">
           <div class="profile-posts__item card">
             <RouterLink :to="{ name: 'post', params: { id: post.id } }" class="card-link">
@@ -23,8 +23,8 @@
                 </div>
               </div>
             </RouterLink>
-            <div class="card-footer">
-              <div class="d-flex justify-content-between">
+            <div class="card-footer" v-if="isCurrentUser">
+              <div class="d-flex justify-content-between" >
                 <button @click="deletePost(post.id)" class="btn btn-danger btn-sm">Delete</button>
                 <RouterLink :to="{ name: 'edit', params: { id: post.id } }" class="btn btn-primary btn-sm">Edit</RouterLink>
               </div>
@@ -45,6 +45,16 @@ export default {
     posts: {
       type: Array,
       required: true,
+    },
+  
+  },
+  data(){
+  },
+  computed: {
+    isCurrentUser() {
+      console.log("user", localStorage.getItem("user"));
+      console.log("params", this.$route.params.username);
+      return localStorage.getItem("user") === this.$route.params.username;
     },
   },
   methods: {

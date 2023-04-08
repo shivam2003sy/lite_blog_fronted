@@ -2,9 +2,6 @@
   <div class="container mt-4">
     <NotifiCation v-if="no_of_posts" :type='type' :message='message' />
     <div  class="row">
-      <!-- <div class="col-md-3 m-2">
-        <SearchBox/>
-      </div> -->
       <div v-if="loading" class="text-center">
       <i class="fa fa-spinner fa-spin fa-2x"></i>
     </div>
@@ -303,9 +300,7 @@ a {
 .postTitle {
   color: black;
 }
-/* .timeSet{
-  text-align:end;
-} */
+
 .caption{
   color: black;
   

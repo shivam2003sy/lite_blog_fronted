@@ -7,7 +7,7 @@
     </header>
     <main>
       <div >
-        <profilePosts :posts="posts"  @deletepost="deletePost(id)"/>
+        <profilePosts :posts="posts"  @deletepost="deletePost(id)" :isLoggedUser="isLoggedUser"/>
       </div>
       <div v-if="isLoggedUser">
       <div>
