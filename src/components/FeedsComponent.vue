@@ -41,17 +41,18 @@
                     </strong>..
                   </span>
                 </RouterLink>
-
-
-
               </p>
               <hr />
               <div class="col-md-6 text-right ">
                 <ul class="list-group list-group-horizontal " style="list-style-type: none; border: 3">
-                  <li class="nav-item p-2">
+                  <li class="nav-item ">
+
+
+
+                    <!-- like funaility -->
                     <button class="btn btn-outline-danger" @click="likePost(post.id)">
                       <i :class="['fa', 'fa-heart', { 'me-1': !liked, 'me-2': liked }]"></i>
-                      {{ liked ? 'Unlike' : 'Like' }}
+                      {{checkLiked(post.id) ? 'Unlike' : 'Like' }}
                     </button>
                   </li>
                   <li class="nav-item p-2">
@@ -79,6 +80,7 @@
           </div>
         </div>
         <!-- <div class="col-md-3"></div> -->
+        {{ feed_liked }}
       </div>
     </div>
   </div>
@@ -103,6 +105,9 @@ export default {
       type: "",
       posts: [],
       liked: false,
+      feed_liked :[
+
+      ],
     };
   },
   computed: {
@@ -119,6 +124,22 @@ export default {
       const response = await axios.get("/api/feeds");
       this.posts = response.data.data;
       console.log("feeds", response.data.data)
+      //  create a list of post id and liked status by local storage user
+      this.posts.forEach(post => {
+        if (post.likes.some(like => like.user === localStorage.getItem("user"))) {
+          this.feed_liked.push({
+            post_id: post.id,
+            liked: true,
+          })
+        }
+        else{
+          this.feed_liked.push({
+            post_id: post.id,
+            liked: false
+          })
+        }
+      });
+      console.log("feed_liked", this.feed_liked)
       this.loading = false;
     } catch (error) {
       this.loading = false;
@@ -150,6 +171,11 @@ export default {
     }
   },
   methods: {
+    // method to show like or unlike
+    checkLiked(post_id) {
+      const liked = this.feed_liked.find(like => like.post_id === post_id);
+      return liked.liked;
+    },
     formatDate(timestamp) {
       const date = new Date(timestamp);
       const options = {
@@ -158,15 +184,6 @@ export default {
         day: "numeric",
       };
       return date.toLocaleDateString("en-US", options);
-    },
-    islikes(users) {
-      for (let i = 0; i < users.length; i++) {
-        if (users[i].user == localStorage.getItem("user")) {
-          console.log("user", users[i].user);
-          return true;
-        }
-      }
-      return false;
     },
     async submitComment(comment, postId) {
       console.log("comment", comment);
@@ -195,12 +212,37 @@ export default {
         const response = await axios.post(`/api/posts/${postId}/like`);
         const updatedPost = response.data.data;
         console.log("updatedPost like ", updatedPost);
-        this.posts = this.posts.map((post) => {
-          if (post.id === postId) {
-            post.no_of_likes = post.no_of_likes + 1;
+        // update no of likes in the post
+        // );
+        let like_status
+        this.feed_liked.forEach(like => {
+          if (like.post_id === postId && like.liked === false) {
+            like_status = true;
+          }else
+          if (like.post_id === postId && like.liked === true) {
+            like_status = false;
           }
-          return post;
         });
+        this.posts.find(post =>{
+          if(post.id === postId && like_status === true){
+            post.no_of_likes += 1;
+          }else
+          if(post.id === postId && like_status === false){
+            post.no_of_likes -= 1;
+          }
+
+        })
+
+        // update the feed_liked list
+        this.feed_liked.forEach(like => {
+          if (like.post_id === postId && like.liked === false) {
+            like.liked = true;
+          }else
+          if (like.post_id === postId && like.liked === true) {
+            like.liked = false;
+          }
+        });
+        
       } catch (error) {
         if (error.response && error.response.status === 500) {
           this.message = "There was a server error. Please refresh the page.";
