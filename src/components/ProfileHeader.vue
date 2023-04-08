@@ -1,7 +1,8 @@
 <template>
   <div class="container mt-3">
+    <NotifiCation v-if="message" :message="message" :type="type" />
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-5 col-sm-12">
         <div v-if="editProfile">
        
           <div class="card">
@@ -46,13 +47,30 @@
                 <span>following</span>
               </div>
             </div>
-            <div class="mt-3">
-              <button v-if="isLoggedUser" class="btn btn-primary" @click="edit()">Edit Profile</button>
+            <div class="mt-3 row  m-1">
+              <div class="col-12 col-md-6">
+                <button v-if="isLoggedUser" class="btn btn-primary" @click="edit()">Edit profile</button>
+              </div>
+              <div class="col-12 col-md-6">
+                <button v-if="isLoggedUser" class="btn btn-danger" @click="deleteUser">Delete </button>
+            </div>
+             
               <div v-if="!isLoggedUser">
                 <button v-if="isFollowing" class="btn btn-danger" @click="toggleunfollow">Unfollow</button>
                 <button v-if="!isFollowing" class="btn btn-primary" @click="toggleFollow">Follow</button>
               </div>
             </div>
+            <div v-if="isInputVisible" class="row m-2" >
+                <input type="text" v-model="inputData" class="form-control mb-1"  placeholder=" Enter your password ..." />
+                <div class="row m-1"> 
+                  <div class="col-6">
+                    <button class="btn btn-danger" @click="confirmDelete">Confirm delete</button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-secondary" @click="cancel">Cancel</button>
+                  </div>
+                </div>
+              </div>
           </div>
         </div>
       </div>
@@ -77,7 +95,7 @@
                 <strong> Report Type selected : {{ profile.report_type }}</strong>
               </p>
               <div class="m-1">
-                <NotifiCation v-if="message" :message="message" :type="type" />
+               
               </div>
             </div>
             <div v-if="loading">
@@ -113,19 +131,61 @@
     components:{
       EditProfile,
       NotifiCation
+
     },
     data() {
       return {
-     
         editProfile: false,
         followers : this.profile.no_of_followers,
         message: '',
         type: '',
         loading : false , 
-        file  : null
+        file  : null,
+        isInputVisible: false,
+        inputData: ''
       }
     },
     methods: {
+      cancel(){
+        this.isInputVisible = false;
+      },
+      deleteUser(){
+        console.log('delete')
+        this.isInputVisible = true;
+      },
+      confirmDelete(){
+        console.log('confirm')
+        if(this.inputData == ''){
+          this.message = 'Please enter your password !'
+          this.type = 'error';
+          return;
+        }
+        console.log(this.inputData)
+        const data = {
+          password : this.inputData
+        }
+        axios.post('/api/users/delete',data)
+        .then((res) => {
+          console.log(res.data)
+          this.message = 'User deleted successfully !'
+          this.type = 'success';
+          // DELETE USER SESSION
+          localStorage.removeItem('user');
+          localStorage.removeItem('tocken');
+          localStorage.removeItem('email');
+          localStorage.removeItem('email_verified');
+          setTimeout(() => {
+            // SIGN UP PAGE
+            location.href = '/register';
+          }, 1000);
+        })
+        .catch((err) => {
+          console.log(err)
+          this.message = 'Something went wrong while deleting user !'
+          this.type = 'error';
+        })
+
+      },
       onFileChange(event) {
       this.file = event.target.files[0];
       console.log(this.file)
@@ -138,7 +198,7 @@
       axios.post('/api/import', formData)
         .then(response => {
           console.log(response.data);
-          this.message = response.data.message;
+          this.message = 'Posts imported successfully'
           this.type = 'success';
           setTimeout(() => {
             // reload the page
@@ -147,8 +207,8 @@
         })
         .catch(error => {
           console.error(error);
-          this.message = error
-          this.type = 'danger'
+          this.message = 'Something went wrong while importing posts !' 
+          this.type = 'error'
         });
     },
 
@@ -345,5 +405,17 @@
  margin-left: 10px;
 
 }
+.space{
+  margin-left: 10px;
+}
+.btn-space{
+  margin-left: 10px;
+}
 
+  .custom-file-label[aria-invalid="true"]::before {
+    border-color: red;
+  }
+  .custom-file-label::after {
+  content: "Choose file";
+}
   </style>

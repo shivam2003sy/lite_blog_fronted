@@ -64,6 +64,10 @@ export default {
       .then((res) => {
         console.log(res);
         // id send to profleView to update the posts
+        setTimeout(() => {
+          // hard reload
+          window.location.reload();
+        }, 1);
         this.$emit("deletepost", id);
       })
       .catch((err) => {
