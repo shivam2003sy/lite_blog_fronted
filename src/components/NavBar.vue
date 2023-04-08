@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar  navbar-expand-lg  bg-light sticky-top border justify-content-between">
     <RouterLink to="/" class="navbar-brand ">
-      <img src="@/assets/images/wb.jpeg" height="60" class="d-inline-block align-top" alt="">
+      <img src="@/assets/images/wb.jpeg" height="60" class="d-inline-block align-top" alt="homelogo">
     </RouterLink>
     <button class="navbar-toggler" type="button" @click="toggleNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

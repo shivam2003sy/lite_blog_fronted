@@ -1,52 +1,80 @@
 <template>
   <NavBar />
   <NotifiCation style="position: fixed;" :type="type" :message="message" />
-  <div class="container mt-4 middlearea">
-    <div class="row">
-      <div class="col-12 col-md-3 mt-4">
-        <div class="col-xs-12 rightpanel" id="sticky-sidebar">
+  <div class="container mt-4 middlearea " >
+    <div class="row ">
+      <div class="col-12 col-md-3 mt-2">
+        <div class="col-xs-8 rightpanel" id="sticky-sidebar">
           <SearchBox />
+          <div class="card d-flex m-2" style="background-color: azure;">
+          
+          <img
+                src="@/assets/images/banner.jpeg"
+                alt="banner"
+                width="250"
+                class="m-4"
+              />
+              <p class="text-mute m-1">
+                <strong>
+                  Adv. listing
+                </strong>
+              </p>
         </div>
+      </div>
+       
       </div>
       <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
         <FeedsComponent />
       </div>
-        <div class="col-12 col-sm-12 col-md-3 d-sm-none d-md-block mt-4">
+      <!-- <div class="col-12 col-sm-12 col-md-3 d-sm-none d-md-block mt-4">
+  <div class="card col-xs-12 rightpanel" id="sticky-sidebar" style="width: 18rem">
+    <div class="card-body d-flex flex-column justify-content-between" style="background-color: aliceblue;">
+      <div>
+        <RouterLink :to="{ name: 'profile', params: { username: user.user.user } }">
+          <span class="font-weight-bold userName">
+            <b>Creator: Shivam Singh</b>
+          </span>
+          <br/>
+          <span class="font-weight-bold userName">
+            <b>Email: shivam2003sy@gmail.com</b>
+          </span>
+        </RouterLink>
+      </div>
+      <div class="mt-3">
+        <img src="path/to/branding/image.png" alt="Brand Logo" style="width: 100%; max-width: 150px;">
+      </div>
+    </div>
+  </div>
+</div> -->
+<!-- right column -->
+<div class="col-12 col-sm-12 col-md-3 d-sm-none d-md-block">
           <div class="card col-xs-12 rightpanel" id="sticky-sidebar" style="width: 18rem">
             <div class="card-body d-flex">
               <div>
-                <RouterLink :to="{ name: 'profile', params: { username: user.user.user } }">
-                  <img
-                  ref="image" :src="base64String"
-                    class="rounded-circle"
-                    alt="Cinque "
-                    width="50"
-                    height="50"
-                  />
+                <a class="nav-link" >
+                  <span>
+                  <strong>by : Shivam Singh</strong>
+                  </span>
+                </a>
+                <div class="mt-2">
                   
-                  <span class="font-weight-bold userName">
-                    <b>{{ user.user.user }}</b>
-                  </span>
-                  <br/>
-                  <br/>
-                  <span class="font-weight-bold userName">
-                    <b>{{ user.user.email }}</b>
-                  </span>
-                </RouterLink>
+                </div>
+                <div class="mt-2 ml-2">
+                  <div class="mt-3">
+                    <span>
+                      <img src="@/assets/images/cardlook.jpeg" style="width: 250px; border-radius: 5%" />
+                    </span>
+                   
+                  </div>
+                </div>
+                <div class="ml-2 mt-2"
+                  style="color: lightgray; font-size: 11px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+                  <p></p>
+                  <p style="font-size: 12px;">© 2023 Blog lite modern application development 2 project</p>
+                </div>
               </div>
+            </div>
           </div>
-          </div>
-
-
-
-
-
-
-
-
-
-
-
         </div>
       </div>
     </div>
@@ -127,6 +155,10 @@ export default {
 
 </script>
 <style>
+.userName{
+  font-size: 20px;
+  color: #000000;
+}
 rightpanel {
   border: 0;
   background-color: #fafafa6f;
