@@ -3,7 +3,12 @@
       <div class="input-group">
         <input type="text" class="form-control comment" placeholder="Add a comment..." v-model="comment">
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" @click="submitComment()">Comment</button>
+          <!-- <button class="btn btn-outline-secondary" type="button" @click="submitComment()">Comment</button>
+           -->
+           <button class="btn btn-outline-primary ms-3" type="button" @click="submitComment()">
+                                    <i class="fa fa-comment me-1"></i>
+                                    Comment
+                                </button>
         </div>
       </div>
     </div>
