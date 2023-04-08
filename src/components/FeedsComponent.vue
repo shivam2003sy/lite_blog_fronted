@@ -80,7 +80,7 @@
           </div>
         </div>
         <!-- <div class="col-md-3"></div> -->
-        {{ feed_liked }}
+
       </div>
     </div>
   </div>
