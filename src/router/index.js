@@ -39,6 +39,12 @@ const routes = [
     name: 'create',
     component: () => import(/* webpackChunkName: "create" */ '../views/CreateView.vue')
   },
+  {
+    path: '/edit/:id',
+    name: 'edit',
+    component: () => import(/* webpackChunkName: "edit" */ '../views/EditView.vue')
+  },
+  
 ]
 const router = createRouter({
   history:    createWebHistory(process.env.BASE_URL),

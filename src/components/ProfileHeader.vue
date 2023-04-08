@@ -1,52 +1,75 @@
 <template>
-  <div class="container">
-    <div class="profile-header">
-      <div class="profile-header-info">
-        <!-- <img @click="" :src='h' alt="Profile picture"> -->
-        <img  :src="profileImageUrl" class="rounded-circle"  alt="Avatar"  @click="uploadImage" />
-        <div class="profile-header-text">
-          <h2> <b> {{ user.user }} </b></h2>
-          <p class="text-muted mb-0 link">
-            <!-- <a @click="changeProfile"       href= '#' v-if='isLoggedUser' class="text-muted mb-0 link">
-              Change Profile
-            </a> -->
-            <!-- <input type="file" id="profile-image" class="custom-file-input" @change="onImageChange" accept="image/*"> -->
-          </p> 
-          <span> <b> @{{ user.email }} </b>  </span>
-          <p>{{ profile.bio }}</p>
-          <div class="profile-header-stats">
-            <div>
-              <div class="mid">
-              <strong>{{ profile.no_of_posts}}</strong></div>
-              <span>posts</span>
-            </div>
-            <div>
-              <div class="mid1">
-              <strong>{{ followers }}</strong></div>
-              <span>followers</span>
-            </div>
-            <div>
-                <div class="mid1">
-              <strong>{{ profile.no_of_following }}</strong></div>
-              <span>following</span>
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-md-4">
+        <div v-if="editProfile">
+       
+          <div class="card">
+            <button class="btn btn-secondary 
+          " @click="close">Close</button>
+            <div class="card-body">
+              <EditProfile />
             </div>
           </div>
-          
-          <button v-if="isLoggedUser" @click="edit()">Edit Profile</button>
-          <div v-if="!isLoggedUser">
-          <button v-if="isFollowing" @click="toggleunfollow">Unfollow</button>
-          <button v-if="!isFollowing" @click="toggleFollow">follow</button>
-        </div>
+            </div>
+        <div v-else class="card">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+              <img
+                :src="profileImageUrl"
+                class="rounded-circle me-3"
+                alt="Avatar"
+                @click="uploadImage"
+                width="120px"
+                height="120px"
+              />
+              <div class="flex-grow-1">
+                <h2 class="m-0"><b>@{{ user.user }}..</b></h2>
+                <p class="text-muted link"></p>
+                <span><b>{{ user.email }}</b></span>
+                <p>{{ profile.bio }}</p>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="text-center">
+                <div class="mid"><strong>{{ profile.no_of_posts }}</strong></div>
+                <span>posts</span>
+              </div>
+              <div class="text-center">
+                <div class="mid1"><strong>{{ followers }}</strong></div>
+                <span>followers</span>
+              </div>
+              <div class="text-center">
+                <div class="mid1"><strong>{{ profile.no_of_following }}</strong></div>
+                <span>following</span>
+              </div>
+            </div>
+            <div class="mt-3">
+              <button v-if="isLoggedUser" class="btn btn-primary" @click="edit()">Edit Profile</button>
+              <div v-if="!isLoggedUser">
+                <button v-if="isFollowing" class="btn btn-danger" @click="toggleunfollow">Unfollow</button>
+                <button v-if="!isFollowing" class="btn btn-primary" @click="toggleFollow">Follow</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      </div>
-      <div v-if="editProfile">
-        <EditProfile/>
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <button class="btn btn-primary mb-3" @click="exportPosts">Export Posts</button>
+            <div class="mb-3">
+              <input type="file" class="form-control" @change="importPosts" />
+            </div>
+            <button class="btn btn-primary mb-3" @click="importPosts">Import Posts</button>
+            
+            <hr>
+          </div>
         </div>
       </div>
-      <hr>
-  </template>
-  
+    </div>
+  </div>
+</template>
   <script>
   import EditProfile from '@/components/EditProfile.vue'
   import axios from 'axios'
@@ -98,6 +121,9 @@
       changeProfile(){
         
       },
+      close(){
+        this.editProfile = !this.editProfile
+      },
     },
     computed: {
       profileImageUrl() {
@@ -113,7 +139,8 @@
         console.log('local user',localStorage.getItem('user'))
         return this.$route.params.username === localStorage.getItem('user');
       },
-    }
+    },
+    
   }
   </script>
   
@@ -126,7 +153,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* margin-left: 10px; */
+    margin-left: 10px;
     margin-bottom: 5px;
   }
   
@@ -203,7 +230,7 @@
 
   .custom-file-label:hover {
     cursor: pointer;
-    color: blue;
+    color: rgb(255, 162, 0);
     text-decoration: underline;
   }
 
@@ -225,4 +252,5 @@
 .mid1{
  margin-left: 25px;
 }
+
   </style>

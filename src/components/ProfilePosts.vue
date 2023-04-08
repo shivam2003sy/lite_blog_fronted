@@ -1,42 +1,34 @@
 <template>
-  <div class="profile-posts">
+  <div class="profile-posts mt-5">
     <div class="container">
       <h2 class="profile-posts__heading">Posts</h2>
 
-      <div class="profile-posts__grid">
-        <div v-for="post in posts" :key="post.id" class="profile-posts__item">
-          <div class="row text">
-            <div class="col-sm-6">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbx91EGmHFTBBCS_mHlBbZEFxpk_RaTwdTtD9tD-F8dA&usqp=CAU&ec=48665698"
-                class="rounded-circle"
-                style="height: 45px; width: 50px"
-                alt="Avatar"
-              />
-            </div>
-            <div class="col-sm-6">
-              <h3>Shivam</h3>
-            </div>
-            <hr />
-          </div>
-          <div class="row">
-            <div class="col-md-3 col-sm-12">
-              <div class="profile-posts__image-wrapper">
-                <img
-                  :src="
-                    'http://localhost:5000/static/path/to/the/uploads/' +
-                    post.imgpath
-                  "
-                  class="profile-posts__image"
-                />
+      <div class="row">
+        <div v-for="post in posts" :key="post.id" class="col-md-4 col-sm-6">
+          <div class="profile-posts__item card">
+            <RouterLink :to="{ name: 'post', params: { id: post.id } }" class="card-link">
+              <div class="card-body">
+                <hr />
+                <div class="profile-posts__image-wrapper">
+                  <img
+                    :src="'http://localhost:5000/static/path/to/the/uploads/' + post.imgpath"
+                    class="profile-posts__image card-img-top"
+                  />
+                </div>
+                <div class="profile-posts__caption">
+                  <p class="profile-posts__title">{{ post.title }}</p>
+                  <p class="card-text">{{ post.caption }}</p>
+                  <p class="card-text">{{ post.no_of_likes }} likes</p>
+                  <p class="card-text">{{ formatDate(post.timestamp) }}</p>
+                </div>
+              </div>
+            </RouterLink>
+            <div class="card-footer">
+              <div class="d-flex justify-content-between">
+                <button @click="deletePost(post.id)" class="btn btn-danger btn-sm">Delete</button>
+                <RouterLink :to="{ name: 'edit', params: { id: post.id } }" class="btn btn-primary btn-sm">Edit</RouterLink>
               </div>
             </div>
-          </div>
-          <div class="profile-posts__caption">
-            <p class="profile-posts__title">{{ post.title }}</p>
-            <p>{{ post.caption }}</p>
-            <p>{{ post.no_of_likes }} likes</p>
-            <p>{{ formatDate(post.timestamp) }}</p>
           </div>
         </div>
       </div>
@@ -45,6 +37,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "ProfilePosts",
   props: {
@@ -63,23 +57,25 @@ export default {
       };
       return date.toLocaleDateString("en-US", options);
     },
+    async deletePost(id) {
+      // Call a method to delete the post with the given id
+      // You can implement this method according to your backend logic
+      await  axios.delete(`/api/posts/${id}`)
+      .then((res) => {
+        console.log(res);
+        // id send to profleView to update the posts
+        this.$emit("deletepost", id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    },
   },
 };
 </script>
 
 <style scoped>
-@media (max-width: 768px) {
-  .text {
-    display: block;
-  }
-}
-
-/* Styles for large screens */
-@media (min-width: 769px) {
-  .text {
-    display: none;
-  }
-}
 .profile-posts {
   margin-top: 2rem;
 }
@@ -88,12 +84,6 @@ export default {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 1rem;
-}
-
-.profile-posts__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
 }
 
 .profile-posts__item {

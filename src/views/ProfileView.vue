@@ -7,7 +7,7 @@
     </header>
     <main>
       <div >
-        <profilePosts :posts="posts" />
+        <profilePosts :posts="posts"  @deletepost="deletePost(id)"/>
       </div>
       <div v-if="isLoggedUser">
       <div>
@@ -19,6 +19,7 @@
     </div>
     </main>
   </div>
+  <!-- {{ posts }} -->
 </template>
 <script>
 
@@ -50,6 +51,15 @@ export default {
     async handleUpdateIsFollowing(isFollowing){
       this.isFollowing = isFollowing
     },
+  deletePost(id) {
+    const index = this.posts.findIndex((post) => post.id === id);
+  if (index !== -1) {
+    // If post with id is found, remove it from the posts array
+    this.posts.splice(index, 1);
+  } else {
+    console.log('Post not found with id:', id);
+  }
+  },
   },
 async created(){
   // user to show in profile

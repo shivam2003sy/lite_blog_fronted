@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg border justify-content-between">
+  <nav class="navbar  navbar-expand-lg  bg-light sticky-top border justify-content-between">
     <RouterLink to="/" class="navbar-brand ">
       <img src="@/assets/images/wb.jpeg" height="60" class="d-inline-block align-top" alt="">
     </RouterLink>
