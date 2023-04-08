@@ -17,9 +17,9 @@
               <div>
                 <RouterLink :to="{ name: 'profile', params: { username: user.user.user } }">
                   <img
-                    src="https://www.w3schools.com/howto/img_avatar.png"
+                  ref="image" :src="base64String"
                     class="rounded-circle"
-                    alt="Cinque Terre"
+                    alt="Cinque "
                     width="50"
                     height="50"
                   />
@@ -70,20 +70,29 @@ export default {
       loading: false,
       message: '',
       type: '',
-      users: []
+      users: [],
+      base64String:''
     }
   },
   computed: {
     user() {
       return this.$store.state.user
     },
-    // last_seen () { 
-    //   value = this.$store.state.user.last_seen
-    //   value = value.split('T')
-    //   value = value[0]
-    //   return value
-    // }
-
+  },
+  methods:{
+    convertBase64ToImage() {
+      const image = new Image();
+      image.src = this.base64String;
+      image.addEventListener('load', () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = image.width;
+        canvas.height = image.height;
+        const context = canvas.getContext('2d');
+        context.drawImage(image, 0, 0);
+        const dataURL = canvas.toDataURL('image/png');
+        this.base64String = dataURL;
+      });
+    },
   },
   async created() {
     if (!localStorage.getItem('tocken')) {
@@ -94,7 +103,9 @@ export default {
     await axios.get('/api/user').then(response => {
       if (response.data.data != null) {
         console.log('response', response.data.data)
+        this.base64String= response.data.data.profileImage
         this.$store.dispatch('setUser', response.data.data)
+        this.convertBase64ToImage();
       } else {
         this.$router.push('/login')
       }

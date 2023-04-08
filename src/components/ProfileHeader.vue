@@ -1,14 +1,17 @@
 <template>
   <div class="container mt-3">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-5">
         <div v-if="editProfile">
        
           <div class="card">
             <button class="btn btn-secondary 
           " @click="close">Close</button>
             <div class="card-body">
-              <EditProfile />
+              <EditProfile 
+              :mail="user.email"
+
+                />
             </div>
           </div>
             </div>
@@ -16,12 +19,11 @@
           <div class="card-body">
             <div class="d-flex align-items-center mb-3">
               <img
-                :src="profileImageUrl"
+                src="https://www.w3schools.com/howto/img_avatar.png"
                 class="rounded-circle me-3"
                 alt="Avatar"
                 @click="uploadImage"
-                width="120px"
-                height="120px"
+                style="width: 60px; height: 60px; object-fit: cover;"
               />
               <div class="flex-grow-1">
                 <h2 class="m-0"><b>@{{ user.user }}..</b></h2>
@@ -54,14 +56,40 @@
           </div>
         </div>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-6 " v-if="isLoggedUser">
         <div class="card">
           <div class="card-body">
-            <button class="btn btn-primary mb-3" @click="exportPosts">Export Posts</button>
-            <div class="mb-3">
-              <input type="file" class="form-control" @change="importPosts" />
+            <label>
+              <h4>Export/Import Posts</h4>
+            </label>
+            <strong>
+              <p class="text-muted">
+                Export your posts to a CSV file and import them to another account.
+              </p>
+              <p class="text-muted">
+                Note: This will not export your comments! comments will be lost.
+              </p>
+            </strong>
+            <hr>
+            <div>
+              <!--  report type -->
+              <p class="text-muted">
+                <strong> Report Type selected : {{ profile.report_type }}</strong>
+              </p>
+              <div class="m-1">
+                <NotifiCation v-if="message" :message="message" :type="type" />
+              </div>
             </div>
-            <button class="btn btn-primary mb-3" @click="importPosts">Import Posts</button>
+            <div v-if="loading">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+            <button v-else class="btn btn-primary mb-3" @click="exportPosts">Export Posts</button>
+            <div class="mb-3">
+              <input type="file" class="form-control mb-1" @change="onFileChange" accept=".csv" />
+              <button class="btn btn-primary mb-3" @click="importPosts">Import Posts</button>
+            </div>
             
             <hr>
           </div>
@@ -73,24 +101,57 @@
   <script>
   import EditProfile from '@/components/EditProfile.vue'
   import axios from 'axios'
+  import NotifiCation from './NotifiCation.vue'
   export default {
     name: 'ProfileHeader',
+
     props: {
       user: Object,
       profile: Object,
       isFollowing : Boolean
     },
     components:{
-      EditProfile
+      EditProfile,
+      NotifiCation
     },
     data() {
       return {
-        // profileImageUrl: 'https://mdbcdn.b-cdn.net/img/new/avatars/2.webp',
+     
         editProfile: false,
-        followers : this.profile.no_of_followers
+        followers : this.profile.no_of_followers,
+        message: '',
+        type: '',
+        loading : false , 
+        file  : null
       }
     },
     methods: {
+      onFileChange(event) {
+      this.file = event.target.files[0];
+      console.log(this.file)
+    },
+    importPosts() {
+      let formData = new FormData();
+
+      if (this.file)
+      formData.append('file', this.file);
+      axios.post('/api/import', formData)
+        .then(response => {
+          console.log(response.data);
+          this.message = response.data.message;
+          this.type = 'success';
+          setTimeout(() => {
+            // reload the page
+            location.reload();
+          }, 3000);
+        })
+        .catch(error => {
+          console.error(error);
+          this.message = error
+          this.type = 'danger'
+        });
+    },
+
       async toggleFollow() {
         await axios.post(`/api/users/${this.user.user}/follow`)
         .then((res) => {
@@ -118,12 +179,43 @@
       edit(){
         this.editProfile = !this.editProfile
       },
-      changeProfile(){
-        
-      },
+      
       close(){
         this.editProfile = !this.editProfile
       },
+      exportPosts(){
+        this.loading = true
+        try {
+        axios.get(`/api/export/${this.user.user}`)
+        .then((res) => {
+          this.loading = false
+          console.log(res.data.data)
+          this.message = res.data.message
+          this.type = 'success'
+          console.log(res.data.message)
+          setTimeout(() => {
+            this.message = ''
+          }, 3000)
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+          this.message = err
+          this.type = 'error'
+          setTimeout(() => {
+            this.message = ''
+          }, 3000)
+        })
+      } catch (error) {
+        this.loading = false
+        console.log(error)
+        this.message = error
+        this.type = 'error'
+        setTimeout(() => {
+          this.message = ''
+        }, 3000)
+      }
+    },
     },
     computed: {
       profileImageUrl() {
@@ -247,10 +339,11 @@
   text-decoration: underline;
 }
 .mid{
- margin-left: 15px;
+ margin-left: 10px;
 }
 .mid1{
- margin-left: 25px;
+ margin-left: 10px;
+
 }
 
   </style>

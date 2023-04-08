@@ -1,6 +1,7 @@
 <template>
   <div class="container my-5">
-    <h2 class="mb-4">Edit Profile</h2>
+    <NotifiCation :message="message" :type="type" v-if="message" />
+    <h2 v-else class="mb-4">Edit Profile</h2>
     <form @submit.prevent="updateUser">
       <div class="form-group">
         <label for="email">Email:</label>
@@ -27,30 +28,47 @@
     </form>
   </div>
 </template>
-
 <script>
 import axios from 'axios';
-
+import NotifiCation from './NotifiCation.vue'
 export default {
   name: 'EditProfile',
+  components:{
+    NotifiCation
+  },
+  props: {
+    mail: String,
+  },
   data() {
     return {
-      email: "",
-      report_type: "",
-      image: null
+      email: this.email,
+      message: '',
+      type: '',
     };
+  },
+  computed:{
   },
   methods: {
     updateUser() {
       const data = new FormData();
       data.append('email', this.email);
       data.append('image', this.$refs.fileInput.files[0]);
+      data.append('report_type', this.report_type);
+      console.log(data)
       axios.put('/api/user', data)
-        .then(response => {
+      .then(response => {
           console.log(response.data.message)
+          this.message = 'Profile updated successfully';
+          this.type = 'success';
+          setTimeout(() => {
+            // reload the page
+            location.reload();
+          },1000);
         })
         .catch(error => {
           console.log(error.response.data.error)
+          this.message = error;
+          this.type = 'danger';
         })
     }
   }
