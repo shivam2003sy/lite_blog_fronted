@@ -7,15 +7,13 @@
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
-
-
         <div v-else-if="message" class="alert alert-danger" role="alert">
-            {{ message }}
+            {{ message }}st likes = 100;
+      const comments = 10;
         </div>
-
-        <div v-else>
+        <div  v-else>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-7">
                     <div class="card">
                         <div class="card-header">
                             <router-link :to="{ name: 'profile', params: { username: user.user } }"
@@ -51,13 +49,14 @@
                             </div>
 
                             <comment-box :post-id="post.id" @submit-comment="submitComment"></comment-box>
-
-
-
                         </div>
                     </div>
                 </div>
+                <div class="col-md-5">
+                    <PostChart  :comments ="comments.length"  :likes="no_of_likes"/>
+                </div>
             </div>
+            <!-- graph of engagements no of likes and commnets -->
         </div>
     </div>
 </template>
@@ -65,11 +64,13 @@
 import axios from 'axios';
 import NavBar from '@/components/NavBar.vue';
 import CommentBox from '@/components/CommentBox.vue';
+import PostChart from '@/components/PostChart.vue';
 export default {
     name: 'PostView',
     components: {
         NavBar,
-        CommentBox
+        CommentBox,
+        PostChart
     },
     data() {
         return {
