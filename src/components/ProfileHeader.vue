@@ -219,9 +219,21 @@
           console.log(res.data.message)
           this.$emit('update:isFollowing',true)
           this.followers = this.followers + 1
+          this.message = 'User followed successfully !'
+          this.type = 'success';
+          setTimeout(()=>{
+            this.message = ''
+            this.type = ''
+          },600)
         })
         .catch((err) => {
           console.log(err)
+          this.message = 'plse try after sometime !'
+          this.type = 'error';
+          setTimeout(()=>{
+            this.message = ''
+            this.type = ''
+          },600)
         })
       },
       async toggleunfollow() {
@@ -231,9 +243,21 @@
           console.log(res.data.message)
           this.$emit('update:isFollowing',false)
           this.followers = this.followers - 1
+          this.message = 'User unfollwed successfully !'
+          this.type = 'success';
+          setTimeout(()=>{
+            this.message = ''
+            this.type = ''
+          },600)
         })
         .catch((err) => {
           console.log(err)
+          this.message = 'plse try after sometime !'
+          this.type = 'error';
+          setTimeout(()=>{
+            this.message = ''
+            this.type = ''
+          },600)
         })
       },
       edit(){
