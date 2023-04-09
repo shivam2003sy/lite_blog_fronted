@@ -16,7 +16,7 @@
             <div class="container profile-followers">
     <div class="row">
       <div class="col-12">
-        <h3>Followers ({{ follower.length}})</h3>
+        <h3>Followers </h3>
       </div>
     </div>
     <div class="row">
@@ -44,7 +44,7 @@
             <div class="container profile-followers">
               <div class="row">
                 <div class="col-12">
-                  <h3>Followings({{followers.length }})</h3>
+                  <h3>Followings</h3>
                 </div>
               </div>
               <div class="row">
