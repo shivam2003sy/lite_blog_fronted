@@ -7,7 +7,6 @@
         <div class="col-xs-8 rightpanel" id="sticky-sidebar">
           <SearchBox />
           <div class="card d-flex m-2" style="background-color: azure;">
-          
           <img
                 src="@/assets/images/banner.jpeg"
                 alt="banner"
@@ -25,28 +24,8 @@
       </div>
       <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
         <FeedsComponent />
+        <AddToDesktopButton />
       </div>
-      <!-- <div class="col-12 col-sm-12 col-md-3 d-sm-none d-md-block mt-4">
-  <div class="card col-xs-12 rightpanel" id="sticky-sidebar" style="width: 18rem">
-    <div class="card-body d-flex flex-column justify-content-between" style="background-color: aliceblue;">
-      <div>
-        <RouterLink :to="{ name: 'profile', params: { username: user.user.user } }">
-          <span class="font-weight-bold userName">
-            <b>Creator: Shivam Singh</b>
-          </span>
-          <br/>
-          <span class="font-weight-bold userName">
-            <b>Email: shivam2003sy@gmail.com</b>
-          </span>
-        </RouterLink>
-      </div>
-      <div class="mt-3">
-        <img src="path/to/branding/image.png" alt="Brand Logo" style="width: 100%; max-width: 150px;">
-      </div>
-    </div>
-  </div>
-</div> -->
-<!-- right column -->
 <div class="col-12 col-sm-12 col-md-3 d-sm-none d-md-block">
           <div class="card col-xs-12 rightpanel" id="sticky-sidebar" style="width: 18rem">
             <div class="card-body d-flex">
@@ -85,13 +64,15 @@ import FeedsComponent from '@/components/FeedsComponent.vue';
 import SearchBox from '@/components/SearchBox.vue';
 import NotifiCation from '@/components/NotifiCation.vue';
 import axios from 'axios';
+import AddToDesktopButton from '@/components/AddToDesktopButton.vue';
 export default {
   name: 'HomeView',
   components: {
     NavBar,
     FeedsComponent,
     SearchBox,
-    NotifiCation
+    NotifiCation,
+    AddToDesktopButton
   },
   data() {
     return {

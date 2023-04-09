@@ -1,20 +1,71 @@
 <template>
   <div class="container-fluid bodyColor">
-    <NavBar/>
+    <NavBar />
     <header>
-      <profile-header :user="user" :profile="profile" :isFollowing='isFollowing' v-on:update:isFollowing="handleUpdateIsFollowing" />
+      <profile-header :user="user" :profile="profile" :isFollowing='isFollowing'
+        v-on:update:isFollowing="handleUpdateIsFollowing" />
     </header>
     <main class="row justify-content-center">
       <div class="col-lg-8 col-md-10 col-sm-12">
-        <profile-posts :posts="posts" @deletepost="deletePost(id)" :isLoggedUser="isLoggedUser"/>
+        <profile-posts :posts="posts" @deletepost="deletePost(id)" :isLoggedUser="isLoggedUser" />
       </div>
       <div class="col-lg-4 col-md-10 col-sm-12 mt-5">
         <div v-if="isLoggedUser">
           <div class="card mb-3">
-            <profile-followers />
+            <!-- <profile-followers /> -->
+            <div class="container profile-followers">
+    <div class="row">
+      <div class="col-12">
+        <h3>Followers ({{ follower.length}})</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="list-group">
+          <div
+            v-for="(f) in follower"
+            :key="f.follower_id"
+            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+          >
+            <div class="follower-info">
+              <RouterLink :to="{ name: 'profile', params: { username: f.follower }}">
+                <h4>{{ f.follower }}</h4>
+              </RouterLink>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
           </div>
           <div class="card mb-3">
-            <profile-following />
+            <!-- <profile-following /> -->
+            <div class="container profile-followers">
+              <div class="row">
+                <div class="col-12">
+                  <h3>Followings({{followers.length }})</h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="list-group">
+                    <!-- {{ following }} -->
+                    <div
+            v-for="(follower) in following"
+            :key="follower.following_id"
+            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+          >
+            <div class="follower-info">
+              <RouterLink :to="{ name: 'profile', params: { username: follower.following }}">
+                <h4>{{ follower.following}}</h4>
+              </RouterLink>
+            </div>
+          </div>
+          </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -25,8 +76,7 @@
 <script>
 import ProfileHeader from '@/components/ProfileHeader.vue'
 import ProfilePosts from '@/components/ProfilePosts.vue'
-import ProfileFollowers from '@/components/ProfileFollowers.vue'
-import ProfileFollowing from '@/components/ProfileFollowing.vue'
+
 import NavBar from '@/components/NavBar.vue'
 import axios from 'axios'
 
@@ -36,8 +86,7 @@ export default {
     ProfileHeader,
     NavBar,
     ProfilePosts,
-    ProfileFollowers,
-    ProfileFollowing
+   
   },
   data() {
     return {
@@ -45,7 +94,9 @@ export default {
       user: null,
       profile: null,
       isLoggedUser: false,
-      isFollowing: false
+      isFollowing: false,
+      follower: [],
+      following: []
     }
   },
   methods: {
@@ -72,10 +123,10 @@ export default {
     //fetching user details 
     let response = axios.get('api/users/' + user)
     response.then((res) => {
-        console.log('response', res.data.data)
-        this.user = res.data.data.user
-        this.profile = res.data.data.userprofile
-      })
+      console.log('response', res.data.data)
+      this.user = res.data.data.user
+      this.profile = res.data.data.userprofile
+    })
       .catch((err) => {
         console.log(err)
       })
@@ -83,23 +134,40 @@ export default {
     //  fetching posts
     let posts = axios.get('/api/users/' + user + '/posts')
     posts.then((res) => {
-        this.posts = res.data.data.posts
-        console.log('posts', this.posts)
-      })
+      this.posts = res.data.data.posts
+      console.log('posts', this.posts)
+    })
       .catch((err) => {
         console.log(err)
       })
     // fetching followers
     let followers = axios.get('/api/users/' + user + '/followers')
     followers.then((res) => {
-        this.followers = res.data.data
-        this.$store.dispatch('setfollowers', res.data.data)
-        console.log('followers', this.followers)
-        console.log('from store followers', this.$store.state.followers)
-        if (this.followers.some(follower => follower.user === localStorage.getItem('user'))) {
-          this.isFollowing = true
-          console.log('isFollowing', this.isFollowing)
-        }
+      this.followers = res.data.data
+      this.$store.dispatch('setfollowers', res.data.data)
+      console.log('followers', this.followers)
+      console.log('from store followers', this.$store.state.followers)
+      if (this.followers.some(follower => follower.user === localStorage.getItem('user'))) {
+        this.isFollowing = true
+        console.log('isFollowing', this.isFollowing)
+      }
+    })
+      .catch((err) => {
+        console.log(err)
+      })
+    // fetching followings
+    axios.get(`/api/followings/${user}`)
+      .then((res) => {
+        this.following = res.data.data
+        console.log('following', this.following)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    axios.get(`/api/followers/${user}`)
+      .then((res) => {
+        this.follower = res.data.data
+        console.log('followers', this.follower)
       })
       .catch((err) => {
         console.log(err)
