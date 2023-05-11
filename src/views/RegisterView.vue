@@ -113,7 +113,7 @@ export default {
             console.log("success messsahe", response.data.message)
             setTimeout(() => {
               this.$router.push("/login");
-            }, 4000);
+            }, 2000);
           }).catch((error) => {
             console.log("error", error)
             this.error = error.response.data.message;

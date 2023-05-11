@@ -13,7 +13,7 @@
             <form @submit.prevent="submitForm" class="mt-4">
               <div class="form-group">
                 <label for="title">Title:</label>
-                <input type="text" id="title" v-model="title" class="form-control">
+                <input type="text" id="title" v-model="title" class="form-control"  maxlength="100">
               </div>
               <div class="form-group">
                 <label for="description">Description:</label>

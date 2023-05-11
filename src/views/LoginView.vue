@@ -7,7 +7,6 @@
           class="card-img-top"
           alt="..."
         />
-        
       </div>
     </div>
     <div class="col-12 col-md-6 mt-3">
@@ -17,8 +16,6 @@
             <div class="card shadow zindex-100 mb-0">
               <div class="card-body">
                 <div class="mb-5 logIn">
-                  <!-- <div v-if="error" class="alert alert-danger">{{ error }}</div>
-                   -->
                   <NotifiCation v-if="error" type="error" :message="error" />
                   <h6 class="h1">
                     <h6 class="h2 join">
@@ -35,8 +32,15 @@
                     Login To Your Account
                   </h6>
                 </div>
-                <span class="clearfix"></span>
-                <form @submit.prevent="handelLogin(e)" class="mt-4">
+
+                <div v-if="loading">
+                  <div class="justify-content-center" role="status">
+                    <i class="fa fa-spinner fa-spin fa-2x"></i>
+                  </div>
+                </div>
+                <div v-else>
+                  <span class="clearfix"></span>
+                  <form @submit.prevent="handelLogin(e)" class="mt-4">
                   <div class="form-group">
                     <label class="form-control-label h5">Username</label>
                     <div class="input-group">
@@ -83,6 +87,7 @@
                     </button>
                   </div>
                 </form>
+              </div>
                 <div class="line-with-text">
                   <hr />
                   <span>or</span>
@@ -116,17 +121,20 @@ export default {
       error: "",
       username: "",
       password: "",
+      loading: false,
     };
   },
   methods: {
     async handelLogin() {
       try {
+        this.loading = true;
         const response = await axios.post("api/users/login", {
           username: this.username,
           password: this.password,
         });
         console.log(response);
         if (response.status === 200) {
+          this.loading = false;
           localStorage.setItem("tocken", response.data.data.id);
           localStorage.setItem("user", response.data.data.user);
           localStorage.setItem("email", response.data.data.email);
@@ -135,6 +143,7 @@ export default {
           this.$router.push("/");
         }
       } catch (error) {
+        this.loading = false;
         this.error = error.response.data.message;
       }
     },

@@ -2,8 +2,7 @@
   <div class="container-fluid bodyColor">
     <NavBar />
     <header>
-      <profile-header :user="user" :profile="profile" :isFollowing='isFollowing'
-        v-on:update:isFollowing="handleUpdateIsFollowing" />
+      <profile-header :user="user" :profile="profile" :isFollowing='isFollowing' v-on:update:isFollowing="handleUpdateIsFollowing" />
     </header>
     <main class="row justify-content-center">
       <div class="col-lg-8 col-md-10 col-sm-12">
@@ -12,57 +11,58 @@
       <div class="col-lg-4 col-md-10 col-sm-12 mt-5">
         <div v-if="isLoggedUser">
           <div class="card mb-3">
-            <!-- <profile-followers /> -->
-            <div class="container profile-followers">
-    <div class="row">
-      <div class="col-12">
-        <h3>Followers </h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="list-group">
-          <div
-            v-for="(f) in follower"
-            :key="f.follower_id"
-            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-          >
-            <div class="follower-info">
-              <RouterLink :to="{ name: 'profile', params: { username: f.follower }}">
-                <h4>{{ f.follower }}</h4>
-              </RouterLink>
-            </div>
-          
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-          </div>
-          <div class="card mb-3">
-            <!-- <profile-following /> -->
             <div class="container profile-followers">
               <div class="row">
                 <div class="col-12">
-                  <h3>Followings</h3>
+                  <div v-if="follower.length === 0" class="follower-info">
+                    <h4>No Followers</h4>
+                  </div>
+                  <div v-else>
+                    <h3>Followers</h3>
+                  </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-12">
                   <div class="list-group">
-                    <!-- {{ following }} -->
-                    <div
-            v-for="(follower) in following"
-            :key="follower.following_id"
-            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-          >
-            <div class="follower-info">
-              <RouterLink :to="{ name: 'profile', params: { username: follower.following }}">
-                <h4>{{ follower.following}}</h4>
-              </RouterLink>
+                    <div v-for="(f) in follower" :key="f.follower_id" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                      <div class="follower-info">
+                        <RouterLink :to="{ name: 'profile', params: { username: f.follower } }">
+                          <h4>{{ f.follower }}</h4>
+                        </RouterLink>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          </div>
+          <div class="card mb-3">
+            <div class="container profile-followers">
+              <div class="row">
+                <div class="col-12">
+                  <div class="col-12">
+                    <div v-if="follower.length === 0" class="follower-info">
+                      <h4>No Followings</h4>
+                    </div>
+                    <div v-else>
+                      <h3>Followings</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="">
+                    <!-- {{ following }} -->
+                    <div v-for="(follower) in following" :key="follower.following_id" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                      <div class="follower-info">
+                        <RouterLink :to="{ name: 'profile', params: { username: follower.following } }">
+                          <h4>{{ follower.following }}</h4>
+                        </RouterLink>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -72,6 +72,7 @@
     </main>
   </div>
 </template>
+
 
 <script>
 import ProfileHeader from '@/components/ProfileHeader.vue'
@@ -86,7 +87,7 @@ export default {
     ProfileHeader,
     NavBar,
     ProfilePosts,
-   
+
   },
   data() {
     return {
@@ -125,7 +126,7 @@ export default {
     response.then((res) => {
       console.log('response', res.data.data)
       this.user = res.data.data.user
-      this.profile = res.data.data.userprofile
+      this.profile = res.data.data.Profile
     })
       .catch((err) => {
         console.log(err)

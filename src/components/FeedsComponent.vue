@@ -72,15 +72,11 @@
               <div v-for="comment in post.comments" :key="comment.id" class="col-md-12 ">
                 <p class="font-weight-bold "> <b>@{{ comment.user.user }} :</b> {{ comment.comment }}</p>
               </div>
-
-              <!-- comment box -->
               <comment-box :post-id="post.id" @submit-comment="submitComment"></comment-box>
             </div>
 
           </div>
         </div>
-        <!-- <div class="col-md-3"></div> -->
-
       </div>
     </div>
   </div>
