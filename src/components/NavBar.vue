@@ -1,6 +1,8 @@
 <template>
   <nav class="navbar  navbar-expand-lg
-  navbar-light bg-light
+  navbar-light bg-white
+  elevation-2
+  gradient-1
   sticky-top border justify-content-between">
     <RouterLink to="/" class="navbar-brand ">
       <img src="@/assets/images/wb.jpeg" height="60" class="d-inline-block align-top" alt="homelogo">

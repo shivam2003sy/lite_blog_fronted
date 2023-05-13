@@ -7,7 +7,7 @@
         <div v-for="post in posts" :key="post.id" class="col">
           <div class="card h-100">
             <RouterLink :to="{ name: 'post', params: { id: post.id } }" class="card-link">
-              <img :src="'http://localhost:5000/static/path/to/the/uploads/' + post.imgpath" class="card-img-top" alt="post image" />
+              <img :src="'https://bloglite-21f1006233.b4a.run/static/uploads/' + post.imgpath" class="card-img-top" alt="post image" />
             </RouterLink>
             <div class="card-body">
               <h5 class="card-title">{{ post.title }}</h5>

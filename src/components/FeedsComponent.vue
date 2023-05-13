@@ -27,7 +27,7 @@
             <p class="font-weight-bold"> Created at :{{ formatDate(post.timestamp) }}</p>
             <div class="card">
               <img :src="
-                'http://localhost:5000/static/path/to/the/uploads/' +
+                'https://bloglite-21f1006233.b4a.run/static/uploads/' +
                 post.imgpath
               " :alt="post.title" class="img-fluid imgSize" />
             </div>

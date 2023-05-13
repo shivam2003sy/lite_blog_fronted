@@ -28,7 +28,7 @@
 
                             <p class="card-text">{{ post.caption }}</p>
 
-                            <img :src="'http://localhost:5000//static/path/to/the/uploads/' + post.imgpath"
+                            <img :src="'https://bloglite-21f1006233.b4a.run/static/uploads/' + post.imgpath"
                                 :alt="post.title" class="img-fluid rounded mb-3">
 
                             <p class="card-text"><small class="text-muted">{{ post.timestamp }}</small></p>

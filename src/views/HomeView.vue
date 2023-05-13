@@ -8,10 +8,10 @@
           <SearchBox />
           <div class="card d-flex m-2" style="background-color: #f5f5f5;">
             <img
-              src="@/assets/images/banner.jpeg"
+              src="@/assets/images/card.jpeg"
               alt="banner"
-              width="250"
-              class="m-4"
+              width="200"
+              class="m-1"
             />
             <p class="text-mute m-1">
               <strong>
